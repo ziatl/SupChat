@@ -18,7 +18,7 @@ import javax.persistence.Table;
 public class UserHasChat implements Serializable {
 	@Id
 	@GeneratedValue(strategy=GenerationType.AUTO)
-	private Double id;
+	private Integer id;
 	
 	@ManyToOne
 	@JoinColumn(name="idUser")
@@ -32,10 +32,10 @@ public class UserHasChat implements Serializable {
 	private String detials;
 	private boolean push;
 	
-	public Double getId() {
+	public Integer getId() {
 		return id;
 	}
-	public void setId(Double id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	public User getUser() {

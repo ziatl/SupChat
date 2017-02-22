@@ -20,7 +20,7 @@ import javax.persistence.Table;
 public class Chat implements Serializable {
 		@Id
 		@GeneratedValue(strategy=GenerationType.AUTO)
-		private Double id;
+		private Integer id;
 		private String libelle;
 		private String detail;
 		private int statut;
@@ -46,10 +46,10 @@ public class Chat implements Serializable {
 		public void setUserHasChats(List<UserHasChat> userHasChats) {
 			this.userHasChats = userHasChats;
 		}
-		public Double getId() {
+		public Integer getId() {
 			return id;
 		}
-		public void setId(Double id) {
+		public void setId(Integer id) {
 			this.id = id;
 		}
 		public String getLibelle() {

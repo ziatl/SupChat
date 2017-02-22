@@ -20,7 +20,7 @@ import org.hibernate.annotations.Type;
 public class Message implements Serializable {
 		@Id
 		@GeneratedValue(strategy=GenerationType.AUTO)
-		private Double id;
+		private Integer id;
 		private String detail;
 		private String url;
 		private String urlLite;
@@ -39,11 +39,11 @@ public class Message implements Serializable {
 		private User user;
 		
 		
-		public Double getId() {
+		public Integer getId() {
 			return id;
 		}
 		
-		public void setId(Double id) {
+		public void setId(Integer id) {
 			this.id = id;
 		}
 		public String getDetail() {
@@ -74,7 +74,7 @@ public class Message implements Serializable {
 			return dateCreate;
 		}
 		public void setDateCreate(Date dateCreate) {
-			this.dateCreate = dateCreate;
+			this.dateCreate = new Date();
 		}
 		public Date getDateUpdate() {
 			return dateUpdate;

@@ -25,7 +25,7 @@ import org.hibernate.annotations.Type;
 public class User implements Serializable {
 		@Id
 		@GeneratedValue(strategy=GenerationType.AUTO)
-		private Double id;
+		private Integer id;
 		private String login;
 		private String mdp;
 		private String nom;
@@ -55,10 +55,10 @@ public class User implements Serializable {
 		public void setUserHasChats(List<UserHasChat> userHasChats) {
 			this.userHasChats = userHasChats;
 		}
-		public Double getId() {
+		public Integer getId() {
 			return id;
 		}
-		public void setId(Double id) {
+		public void setId(Integer id) {
 			this.id = id;
 		}
 		public String getLogin() {
@@ -119,7 +119,7 @@ public class User implements Serializable {
 			return dateCreate;
 		}
 		public void setDateCreate(Date dateCreate) {
-			this.dateCreate = dateCreate;
+			this.dateCreate = new Date();
 		}
 		public Date getDateUpdate() {
 			return dateUpdate;

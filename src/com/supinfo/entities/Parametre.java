@@ -16,7 +16,7 @@ import javax.persistence.Table;
 public class Parametre implements Serializable {
 		@Id
 		@GeneratedValue(strategy=GenerationType.AUTO)
-		private Double id;
+		private Integer id;
 		private boolean push;
 		private boolean audio;
 		private boolean video;
@@ -27,10 +27,10 @@ public class Parametre implements Serializable {
 		@JoinColumn(name="idUser")
 		private User user;
 		
-		public Double getId() {
+		public Integer getId() {
 			return id;
 		}
-		public void setId(Double id) {
+		public void setId(Integer id) {
 			this.id = id;
 		}
 		public boolean isPush() {
