@@ -3,8 +3,10 @@ package com.supinfo.interfaces;
 import java.io.Serializable;
 import java.util.List;
 
+import com.supinfo.entities.Chat;
 import com.supinfo.entities.Message;
 import com.supinfo.entities.User;
+import com.supinfo.entities.UserHasChat;
 
 
 public interface ICrud {
@@ -16,6 +18,25 @@ public interface ICrud {
 	
 	public List<User> getAllUser();
 	public List<User> getUserByString(String mc);
+	
+	//Crud Chat
+	public Chat addChat(Chat c);
+	public Chat findChatById(Integer id);
+	public int delChatById(Integer id);
+	public Chat updateChat(Chat c);
+	
+	public List<Chat> getAllChat();
+	public List<Chat> getChatByString(String mc);
+	public List<Chat> getChatByUser(Integer idUser);
+	
+	//UserHasChat
+	public UserHasChat addUHC(UserHasChat uhc);
+	public UserHasChat findUHC(Integer id);
+	public int delUHC(Integer id);
+	public UserHasChat updateUHC (UserHasChat uhc);
+	public List<UserHasChat> getAllUHC();
+	
+	
 	
 
 }

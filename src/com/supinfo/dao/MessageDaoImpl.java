@@ -49,7 +49,7 @@ public class MessageDaoImpl implements IMessage {
 		Message mes = new Message();
 		mes.setUrl(url);
 		mes.setUrlLite(urlLite);
-		mes.setType(1);
+		mes.setType(type);
 		
 		mes.setUser(crudDao.findUserById(idUser));
 		//mes.setChat(crudDao.findChatById(idChat));
