@@ -21,7 +21,7 @@
   
   <servlet-mapping>
     <servlet-name>Jersey Web Application</servlet-name>
-    <url-pattern>/rest/*</url-pattern>
+    <url-pattern>/api/*</url-pattern>
   </servlet-mapping>
   
   <!-- Fin de la configuration de Jersey -->

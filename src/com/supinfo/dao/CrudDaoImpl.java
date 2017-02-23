@@ -15,7 +15,16 @@ import com.supinfo.interfaces.ICrud;
 
 public class CrudDaoImpl implements ICrud {
 
-	public EntityManager em;
+	private EntityManager em;
+	
+	public EntityManager getEm() {
+		return em;
+	}
+
+	public void setEm(EntityManager em) {
+		this.em = em;
+	}
+
 	public CrudDaoImpl() {
 		super();
 		em = PersistenceManager.getEntityManager();
@@ -81,14 +90,15 @@ public class CrudDaoImpl implements ICrud {
 
 	@Override
 	public List<User> getAllUser() {
-		Query q = em.createNamedQuery("select u from User u");
+		Query q = em.createQuery("select u from User u ");
+		
 		List<User> ll = q.getResultList();
 		return ll;
 	}
 
 	@Override
 	public List<User> getUserByString(String mc) {
-		Query q = em.createNamedQuery("select u from User u where u.nom=:X or prenom=:X");
+		Query q = em.createQuery("select u from User u where u.nom=:X or prenom=:X");
 		q.setParameter("X", "%"+mc+"%");
 		List<User> ll = q.getResultList();
 		return ll;	
@@ -155,14 +165,14 @@ public class CrudDaoImpl implements ICrud {
 
 	@Override
 	public List<Chat> getAllChat() {
-		Query q = em.createNamedQuery("select c from Chat c");
+		Query q = em.createQuery("select c from Chat c");
 		List<Chat> cc = q.getResultList();
 		return cc;
 	}
 
 	@Override
 	public List<Chat> getChatByString(String mc) {
-		Query q = em.createNamedQuery("select c from Chat c where c.libelle=:X");
+		Query q = em.createQuery("select c from Chat c where c.libelle=:X");
 		q.setParameter("X", "%"+mc+"%");
 		List<Chat> cc = q.getResultList();
 		return cc;	
@@ -170,7 +180,7 @@ public class CrudDaoImpl implements ICrud {
 
 	@Override
 	public List<Chat> getChatByUser(Integer idUser) {
-		Query q = em.createNamedQuery("select c from Chat c where c.id in (select h.idChat from User_Has_Chat h where h.idUser=:X)");
+		Query q = em.createQuery("select c from Chat c where c.id in (select h.idChat from User_Has_Chat h where h.idUser=:X)");
 		q.setParameter("X", idUser);
 		return q.getResultList();
 	}
@@ -234,7 +244,7 @@ public class CrudDaoImpl implements ICrud {
 
 	@Override
 	public List<UserHasChat> getAllUHC() {
-		Query q = em.createNamedQuery("select u from UserHasChat u");
+		Query q = em.createQuery("select u from UserHasChat u");
 		List<UserHasChat> uhc = q.getResultList();
 		return uhc;
 	}	
