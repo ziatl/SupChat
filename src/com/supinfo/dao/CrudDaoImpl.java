@@ -50,6 +50,11 @@ public class CrudDaoImpl implements ICrud {
 
 	@Override
 	public User findUserById(Integer id) {
+		User u = new User();
+		u = em.find(User.class, id);
+		if (u == null){
+			return new User();
+		}
 		return em.find(User.class, id);
 	}
 
@@ -84,7 +89,7 @@ public class CrudDaoImpl implements ICrud {
 			return u;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return null;
+			return new User();
 		}	
 	}
 
@@ -122,13 +127,17 @@ public class CrudDaoImpl implements ICrud {
 			return c;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return null;
+			return new Chat();
 		}	
 	}
 
 	@Override
 	public Chat findChatById(Integer id) {
-		return em.find(Chat.class, id);
+		Chat c = em.find(Chat.class, id);
+		if (c==null){
+			return new Chat();
+		}
+		return c;
 	}
 
 	@Override
@@ -159,7 +168,7 @@ public class CrudDaoImpl implements ICrud {
 			return c;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return null;
+			return new Chat();
 		}	
 	}
 
@@ -201,7 +210,7 @@ public class CrudDaoImpl implements ICrud {
 			return uhc;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return null;
+			return new UserHasChat();
 		}	
 	}
 

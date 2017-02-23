@@ -29,7 +29,7 @@ public class MessageDaoImpl implements IMessage {
 		mes.setType(1);
 		
 		mes.setUser(crudDao.findUserById(idUser));
-		//mes.setChat(crudDao.findChatById(idChat));
+		mes.setChat(crudDao.findChatById(idChat));
 		
 		EntityTransaction et = em.getTransaction();
 		try {
@@ -40,7 +40,7 @@ public class MessageDaoImpl implements IMessage {
 			return mes;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return null;
+			return new Message();
 		}	
 	}
 
@@ -52,7 +52,7 @@ public class MessageDaoImpl implements IMessage {
 		mes.setType(type);
 		
 		mes.setUser(crudDao.findUserById(idUser));
-		//mes.setChat(crudDao.findChatById(idChat));
+		mes.setChat(crudDao.findChatById(idChat));
 		
 		EntityTransaction et = em.getTransaction();
 		try {
@@ -63,13 +63,17 @@ public class MessageDaoImpl implements IMessage {
 			return mes;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return null;
+			return new Message();
 		}	
 	}
 
 	@Override
-	public Message findMessageById(Integer id) {	
-		return em.find(Message.class, id);
+	public Message findMessageById(Integer id) {
+		Message m = em.find(Message.class, id);
+		if (m==null){
+			return new Message();
+		}
+		return m;
 	}
 
 	@Override
@@ -102,7 +106,7 @@ public class MessageDaoImpl implements IMessage {
 			return message;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
-			return null;
+			return new Message();
 		}	
 	}
 
