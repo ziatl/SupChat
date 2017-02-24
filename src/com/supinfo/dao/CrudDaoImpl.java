@@ -179,7 +179,7 @@ public class CrudDaoImpl implements ICrud {
 
 	@Override
 	public List<Chat> getChatByString(String mc) {
-		Query q = em.createQuery("select c from Chat c where c.libelle=:X");
+		Query q = em.createQuery("select c from Chat c where c.libelle like:X");
 		q.setParameter("X", "%"+mc+"%");
 		List<Chat> cc = q.getResultList();
 		return cc;	
