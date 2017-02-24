@@ -1,7 +1,7 @@
 package com.supinfo.entities;
 
 import java.io.Serializable;
-
+import java.util.Date;
 
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
@@ -31,6 +31,7 @@ public class UserHasChat implements Serializable {
 	private int status; 
 	private String detials;
 	private boolean push;
+	private Date connectAt;
 	
 	public Integer getId() {
 		return id;
@@ -73,6 +74,14 @@ public class UserHasChat implements Serializable {
 	}
 	public void setPush(boolean push) {
 		this.push = push;
+	}
+	
+	
+	public Date getConnectAt() {
+		return connectAt;
+	}
+	public void setConnectAt(Date connectAt) {
+		this.connectAt = connectAt;
 	}
 	public UserHasChat() {
 		super();
