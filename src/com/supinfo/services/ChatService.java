@@ -2,6 +2,7 @@ package com.supinfo.services;
 
 import java.util.List;
 
+import javax.ws.rs.DELETE;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -63,6 +64,14 @@ public class ChatService {
 		System.out.println(mc);
 		return crudDao.getUserByString(mc);
 	}
+
+	@DELETE
+	@Path("/user/{idUser}")
+	public Integer deleteUser(@PathParam(value="idUser")Integer idUser) {
+		
+		return crudDao.delChatById(idUser);
+	}
+	
 	
 	@GET
 	@Path("/test")
@@ -72,3 +81,8 @@ public class ChatService {
 	}
 	
 }
+
+
+
+
+

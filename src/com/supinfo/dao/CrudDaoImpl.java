@@ -142,10 +142,12 @@ public class CrudDaoImpl implements ICrud {
 	public int delChatById(Integer id) {
 		EntityManager em = PersistenceManager.getEntityManager();
 		EntityTransaction et = em.getTransaction();
-		Chat c = em.find(Chat.class, id);
+		
 		try {
 			et.begin();
-			em.remove(c);
+			Query q = em.createQuery("delete from User u where u.id=:X");
+			q.setParameter("X", id);
+			q.executeUpdate();
 			et.commit();
 			em.close(); 
 			return 1;
