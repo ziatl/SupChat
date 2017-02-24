@@ -1,6 +1,7 @@
 package com.supinfo.servlets;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Query;
@@ -24,18 +25,25 @@ public class TestServlet extends HttpServlet {
 //		Query q = em.createQuery("select u from User u");
 //		q.getResultList();
 		CrudDaoImpl cr = new CrudDaoImpl();
-		cr.getAllUser();
-		
-		User u = new User();
-		u.setNom("liloudini");
-		u.setPrenom("azzi");
-		
-		User mm = cr.addUser(u);
-		if (mm == null){
-			System.out.println("Insertion echoue");
-		}else{
-			System.out.println("Insertion reussit");
+//		cr.getAllUser();
+//		
+//		User u = new User();
+//		u.setNom("liloudini");
+//		u.setPrenom("azzi");
+//		
+//		User mm = cr.addUser(u);
+//		if (mm == null){
+//			System.out.println("Insertion echoue");
+//		}else{
+//			System.out.println("Insertion reussit");
+//		}
+		List<User> ll = cr.getUserByString("a");
+		System.out.println(ll.size());
+		for (User user : ll) {
+			System.out.println(user.getNom());
 		}
+		
+		
 		
 		req.getServletContext().getRequestDispatcher("/index.html").forward(req, resp);	
 	}

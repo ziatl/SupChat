@@ -12,6 +12,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import org.codehaus.jackson.annotate.JsonIgnore;
+
 @Entity
 @Table(name="devise")
 public class Device implements Serializable {
@@ -72,10 +74,12 @@ public class Device implements Serializable {
 			this.model = model;
 		}
 
+		@JsonIgnore
 		public User getUser() {
 			return user;
 		}
 
+		
 		public void setUser(User user) {
 			this.user = user;
 		}

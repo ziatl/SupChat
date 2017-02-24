@@ -27,7 +27,6 @@ public class MessageDaoImpl implements IMessage {
 		Message mes = new Message();
 		mes.setDetail(message);
 		mes.setType(1);
-		
 		mes.setUser(crudDao.findUserById(idUser));
 		mes.setChat(crudDao.findChatById(idChat));
 		
@@ -119,7 +118,7 @@ public class MessageDaoImpl implements IMessage {
 
 	@Override
 	public List<Message> getMessageByString(String mc) {
-		Query q = em.createNamedQuery("select m from Message m where m.detail=:X");
+		Query q = em.createNamedQuery("select m from Message m where m.detail like :X");
 		q.setParameter("X", "%"+mc+"%");
 		List<Message> ll = q.getResultList();
 		return ll;	

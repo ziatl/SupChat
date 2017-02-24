@@ -118,8 +118,9 @@ public class User implements Serializable {
 		public Date getDateCreate() {
 			return dateCreate;
 		}
+		
 		public void setDateCreate(Date dateCreate) {
-			this.dateCreate = new Date();
+			this.dateCreate = dateCreate;
 		}
 		public Date getDateUpdate() {
 			return dateUpdate;
