@@ -8,7 +8,7 @@ import javax.persistence.Query;
 
 import com.supinfo.database.PersistenceManager;
 import com.supinfo.entities.Chat;
-import com.supinfo.entities.Message;
+
 import com.supinfo.entities.User;
 import com.supinfo.entities.UserHasChat;
 import com.supinfo.interfaces.ICrud;
@@ -53,6 +53,7 @@ public class CrudDaoImpl implements ICrud {
 		User u = new User();
 		u = em.find(User.class, id);
 		if (u == null){
+			
 			return new User();
 		}
 		return em.find(User.class, id);
@@ -80,6 +81,9 @@ public class CrudDaoImpl implements ICrud {
 	
 	@Override
 	public User updateUser(User u) {
+		if (String.valueOf(findUserById(u.getId()).getId()).equals("null")){
+			return new User();
+		}
 		EntityTransaction et = em.getTransaction();
 		try {
 			et.begin();
@@ -140,6 +144,10 @@ public class CrudDaoImpl implements ICrud {
 
 	@Override
 	public int delChatById(Integer id) {
+		if (String.valueOf(findUserById(id).getId()).equals("null")){
+			return 0;
+		}
+		
 		EntityManager em = PersistenceManager.getEntityManager();
 		EntityTransaction et = em.getTransaction();
 		
@@ -159,6 +167,9 @@ public class CrudDaoImpl implements ICrud {
 
 	@Override
 	public Chat updateChat(Chat c) {
+		if (String.valueOf(findChatById(c.getId()).getId()).equals("null")){
+			return new Chat();
+		}
 		EntityTransaction et = em.getTransaction();
 		try {
 			et.begin();
@@ -170,6 +181,7 @@ public class CrudDaoImpl implements ICrud {
 			System.out.println(e.getMessage());
 			return new Chat();
 		}	
+		
 	}
 
 	@Override
@@ -238,6 +250,9 @@ public class CrudDaoImpl implements ICrud {
 
 	@Override
 	public UserHasChat updateUHC(UserHasChat uhc) {
+		if (String.valueOf(findUHC(uhc.getId()).getId()).equals("null")){
+			return new UserHasChat();
+		}
 		EntityTransaction et = em.getTransaction();
 		try {
 			et.begin();

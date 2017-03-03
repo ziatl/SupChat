@@ -12,7 +12,9 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
-import org.codehaus.jackson.annotate.JsonIgnore;
+import org.glassfish.jersey.server.JSONP;
+
+
 
 @Entity
 @Table(name="devise")
@@ -74,7 +76,7 @@ public class Device implements Serializable {
 			this.model = model;
 		}
 
-		@JsonIgnore
+		
 		public User getUser() {
 			return user;
 		}

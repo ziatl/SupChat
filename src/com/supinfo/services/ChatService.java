@@ -12,8 +12,8 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-
-
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.supinfo.dao.CrudDaoImpl;
 import com.supinfo.dao.MessageDaoImpl;
 import com.supinfo.entities.User;
@@ -21,6 +21,7 @@ import com.supinfo.entities.User;
 
 @Path("/rest")
 @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+
 public class ChatService {
 
 	public CrudDaoImpl crudDao;
@@ -67,9 +68,8 @@ public class ChatService {
 
 	@DELETE
 	@Path("/user/{idUser}")
-	public Integer deleteUser(@PathParam(value="idUser")Integer idUser) {
-		
-		return crudDao.delChatById(idUser);
+	public int deleteUser(@PathParam(value="idUser")Integer idUser) {
+			return crudDao.delChatById(idUser);
 	}
 	
 	
@@ -81,8 +81,3 @@ public class ChatService {
 	}
 	
 }
-
-
-
-
-

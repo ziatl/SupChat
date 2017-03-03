@@ -16,7 +16,7 @@ public class MessageDaoImpl implements IMessage {
 	public EntityManager em;
 	public CrudDaoImpl crudDao;
 	
-	public MessageDaoImpl() {
+	public MessageDaoImpl() {	
 		super();
 		em = PersistenceManager.getEntityManager();
 		crudDao = new CrudDaoImpl();
