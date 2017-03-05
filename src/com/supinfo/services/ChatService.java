@@ -1,8 +1,10 @@
 package com.supinfo.services;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.ws.rs.DELETE;
+import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
 import javax.ws.rs.POST;
 import javax.ws.rs.PUT;
@@ -12,8 +14,6 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.supinfo.dao.CrudDaoImpl;
 import com.supinfo.dao.MessageDaoImpl;
 import com.supinfo.entities.User;
@@ -42,6 +42,8 @@ public class ChatService {
 	@POST
 	@Path("/user")
 	public User addUser(User u){
+		u.setDateCreate(new Date());
+		u.setDateUpdate(new Date());
 		crudDao.addUser(u);
 		return u; 
 	}
@@ -49,6 +51,7 @@ public class ChatService {
 	@PUT
 	@Path("/user")
 	public User updateUser(User u){
+		u.setDateUpdate(new Date());
 		crudDao.updateUser(u);
 		return u; 
 	}
@@ -56,6 +59,7 @@ public class ChatService {
 	@GET
 	@Path("/user/{idUser}")
 	public User getUsersById(@PathParam(value="idUser") Integer idUser){
+		
 		return crudDao.findUserById(idUser);
 	}
 	
@@ -70,6 +74,11 @@ public class ChatService {
 	@Path("/user/{idUser}")
 	public int deleteUser(@PathParam(value="idUser")Integer idUser) {
 			return crudDao.delChatById(idUser);
+	}
+	@POST
+	@Path("/login")
+	public User login(@FormParam(value="login") String login,@FormParam(value="mdp") String mdp){
+		return crudDao.login(login, mdp);
 	}
 	
 	

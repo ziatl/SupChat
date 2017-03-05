@@ -31,7 +31,7 @@ public class User implements Serializable {
 		private String bio;
 		private String statut;
 		private String token;
-		
+		private Date tokenExpire;
 		private Date dateCreate;
 		private Date dateUpdate;
 		private Date lastConnect;
@@ -142,6 +142,16 @@ public class User implements Serializable {
 		}
 		public void setMessages(List<Message> messages) {
 			this.messages = messages;
+		}
+		
+		public Date getTokenExpire() {
+			return tokenExpire;
+		}
+		public void setTokenExpire(Date tokenExpire) {
+			this.tokenExpire = tokenExpire;
+		}
+		public void setDevices(List<Device> devices) {
+			this.devices = devices;
 		}
 		public User() {
 			super();

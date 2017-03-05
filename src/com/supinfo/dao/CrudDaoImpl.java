@@ -99,7 +99,7 @@ public class CrudDaoImpl implements ICrud {
 
 	@Override
 	public List<User> getAllUser() {
-		Query q = em.createQuery("select u from User u ");
+		Query q = em.createQuery("select u from User u");
 		List<User> ll = q.getResultList();
 		return ll;
 	}
@@ -109,6 +109,20 @@ public class CrudDaoImpl implements ICrud {
 		Query q = em.createQuery("select u from User u where u.nom like :X or u.prenom like :X");
 		q.setParameter("X", "%"+mc+"%");
 		return q.getResultList();
+	}
+	@Override
+	public User login(String login, String pwd) {
+		Query q = em.createQuery("select u from User u where u.login=:X and u.mdp=:Y");
+		q.setParameter("X", login);
+		q.setParameter("Y", pwd);
+		
+		try {
+			return (User) q.getSingleResult();
+		} catch (Exception e) {
+			// TODO: handle exception
+			return new User();
+		}
+		
 	}
 	
 	/*

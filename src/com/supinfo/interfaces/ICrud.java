@@ -19,6 +19,7 @@ public interface ICrud {
 	public List<User> getAllUser();
 	public List<User> getUserByString(String mc);
 	
+	public User login(String login,String mdp);
 	//Crud Chat
 	public Chat addChat(Chat c);
 	public Chat findChatById(Integer id);
