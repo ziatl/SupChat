@@ -13,6 +13,7 @@ public interface ICrud {
 	//Crud du User
 	public User addUser(User u);
 	public User findUserById(Integer id);
+	public User findUserByToken(String token);
 	public int delUserById(Integer id);
 	public User updateUser(User u);
 	

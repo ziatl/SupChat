@@ -1,6 +1,7 @@
 package com.supinfo.services;
 
 import java.io.IOException;
+import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
@@ -13,44 +14,81 @@ import javax.ws.rs.ext.Provider;
 
 import org.glassfish.jersey.internal.util.Base64;
 
+import com.supinfo.dao.CrudDaoImpl;
+import com.supinfo.entities.User;
+
 @Provider
 public class RequestFilter implements ContainerRequestFilter {
 	
 	private static final String AUTHORIZATION_HEADER_KEY = "authorization";
 	private static final String AUTHORIZATION_HEADER_PREFIX = "Basic ";
+	private CrudDaoImpl crudDAO = new CrudDaoImpl();
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {
 		System.out.println("Entre du filter");
 		String test = requestContext.getUriInfo().getPath();
-		if (acceptUrl("/rest/login")){
-			
+		System.out.println(test);
+		if (test.equals("rest/login")){
+			return;
 		}else{
-		List<String> authHeader = requestContext.getHeaders().get(AUTHORIZATION_HEADER_KEY);
-		String authorizationHeader = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
-		String token = "euiereirniu";
-
-		System.out.println(authorizationHeader);
-		String valeur = authorizationHeader.substring("Basic".length()).trim();
-		System.out.println(token);
+//		List<String> authHeader = requestContext.getHeaders().get(AUTHORIZATION_HEADER_KEY);
 		
-		//autorise
-		if (valeur.equals(token)){
-			System.out.println(authorizationHeader);
-//			Response autho = Response.status(Status.OK).entity("Vous etes bien connecte")
-//					.build();
-//			requestContext.abortWith(autho);		
-				return;
-		   }
-			//Non autohorise
-			Response unAuthorizedStatus = Response.status(Status.UNAUTHORIZED).entity("Vous n'avez pas les bonnes information")
+		String token = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
+		try {
+			token = token.substring("Basic".length()).trim();
+		} catch (Exception e) {
+			System.out.println("requete sans token");
+			Response unAuthorizedStatus = Response.status(Status.UNAUTHORIZED).entity("Requete sans token!!!")
 					.build();
-			requestContext.abortWith(unAuthorizedStatus);					
+			requestContext.abortWith(unAuthorizedStatus);
 		}
+		
+		System.out.println(token);
+		crudDAO = new CrudDaoImpl();
+		User user = crudDAO.findUserByToken(token);
+		System.out.println(user.getId());
+		if(user.getId()!=null){
+			if (validToken(user.getTokenExpire())){
+				Response unAuthorizedStatus = Response.status(Status.UNAUTHORIZED).entity("Token Exipire!!! Reconnectez vous pour un nouveau!")
+						.build();
+				requestContext.abortWith(unAuthorizedStatus);
+			}else{
+				Date date = new Date();
+				System.out.println(date);
+				date.setMinutes(date.getMinutes()+20);
+				System.out.println(date);
+				user.setTokenExpire(date);
+				CrudDaoImpl cc = new CrudDaoImpl();
+				cc.updateUser(user);
+				//autorise
+				return;
+			}
+		}else{
+			//Non autohorise
+			Response unAuthorizedStatus = Response.status(Status.UNAUTHORIZED).entity("Non authorise!!!")
+						.build();
+			requestContext.abortWith(unAuthorizedStatus);					
+			}
+		}
+	}
+
+	public Boolean validToken(Date dateExpire){
+		if (dateExpire.before(new Date())) {
+			System.out.println(dateExpire);
+			System.out.println(new Date());
+			System.out.println("Before");
+			return true;
+		}else{
+			System.out.println(dateExpire);
+			System.out.println(new Date());
+			System.out.println("After");
+			return false;
+		}	
 	}
 	
 	public Boolean acceptUrl(String url){
-		
 		
 		return true;
 	}

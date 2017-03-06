@@ -1,5 +1,6 @@
 package com.supinfo.services;
 
+import java.io.IOException;
 import java.util.Date;
 import java.util.List;
 
@@ -12,8 +13,16 @@ import javax.ws.rs.Path;
 import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
+import javax.ws.rs.container.ContainerRequestContext;
+import javax.ws.rs.container.ContainerResponseContext;
+import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.Response.Status;
 
+import org.glassfish.jersey.server.model.MethodList.Filter;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.supinfo.dao.CrudDaoImpl;
 import com.supinfo.dao.MessageDaoImpl;
 import com.supinfo.entities.User;
@@ -81,12 +90,15 @@ public class ChatService {
 		return crudDao.login(login, mdp);
 	}
 	
-	
+
 	@GET
 	@Path("/test")
 	@Produces(MediaType.APPLICATION_JSON)
-	public String test(){
-		return "test test";
+	public Response test(){
+		ObjectMapper mapper = new ObjectMapper();
+		User user = crudDao.findUserById(3);
+		Response response = Response.status(Status.OK).entity(user).build();
+		return response;
 	}
 	
 }

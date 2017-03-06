@@ -1,5 +1,7 @@
 package com.supinfo.dao;
 
+import java.util.Calendar;
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -12,6 +14,7 @@ import com.supinfo.entities.Chat;
 import com.supinfo.entities.User;
 import com.supinfo.entities.UserHasChat;
 import com.supinfo.interfaces.ICrud;
+import com.supinfo.providers.ProviderChat;
 
 public class CrudDaoImpl implements ICrud {
 
@@ -57,6 +60,24 @@ public class CrudDaoImpl implements ICrud {
 			return new User();
 		}
 		return em.find(User.class, id);
+	}
+	
+	@Override
+	public User findUserByToken(String token) {
+		Query q = em.createQuery("SELECT u FROM User u WHERE u.token=:X");
+		q.setParameter("X", token);
+		try {
+			User user = (User) q.getSingleResult();
+			if (user==null){
+				return new User();
+			}else{
+				return user;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			return new User();
+		}	
+		
 	}
 
 	@Override
@@ -117,7 +138,16 @@ public class CrudDaoImpl implements ICrud {
 		q.setParameter("Y", pwd);
 		
 		try {
-			return (User) q.getSingleResult();
+			User user = (User) q.getSingleResult();
+			user.setToken(ProviderChat.genrateToken());
+			Date date = new Date();
+			System.out.println(date);
+			date.setMinutes(date.getMinutes()+20);
+			System.out.println(date);
+			user.setTokenExpire(date);
+			CrudDaoImpl cc = new CrudDaoImpl();
+			cc.updateUser(user);
+			return user;
 		} catch (Exception e) {
 			// TODO: handle exception
 			return new User();
