@@ -1,6 +1,7 @@
 package com.supinfo.services;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
@@ -28,13 +29,6 @@ public class RequestFilter implements ContainerRequestFilter {
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {
 		System.out.println("Entre du filter");
-		String test = requestContext.getUriInfo().getPath();
-		System.out.println(test);
-		if (test.equals("rest/login")){
-			return;
-		}else{
-//		List<String> authHeader = requestContext.getHeaders().get(AUTHORIZATION_HEADER_KEY);
-		
 		String token = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
 		try {
 			token = token.substring("Basic".length()).trim();
@@ -44,11 +38,46 @@ public class RequestFilter implements ContainerRequestFilter {
 					.build();
 			requestContext.abortWith(unAuthorizedStatus);
 		}
-		
-		System.out.println(token);
+		String test = requestContext.getUriInfo().getPath();
+		System.out.println(test);
+		if (acceptUrl(test)){
+			if (test.equals("rest/user")) {
+				if(requestContext.getMethod().equals("POST")){
+					return;
+				}else{
+					crudDAO = new CrudDaoImpl();
+					User user = crudDAO.findUserByToken(token);
+				
+					if(user.getId()!=null){
+						if (validToken(user.getTokenExpire())){
+							Response unAuthorizedStatus = Response.status(Status.UNAUTHORIZED).entity("Token Exipire!!! Reconnectez vous pour un nouveau!")
+									.build();
+							requestContext.abortWith(unAuthorizedStatus);
+						}else{
+							Date date = new Date();
+							System.out.println(date);
+							date.setMinutes(date.getMinutes()+20);
+							System.out.println(date);
+							user.setTokenExpire(date);
+							CrudDaoImpl cc = new CrudDaoImpl();
+							cc.updateUser(user);
+							//autorise
+							return;
+						}
+					}else{
+						//Non autohorise
+						Response unAuthorizedStatus = Response.status(Status.UNAUTHORIZED).entity("Non authorise!!!")
+									.build();
+						requestContext.abortWith(unAuthorizedStatus);					
+						}
+				}
+			}
+			return;
+		}else{
+//		List<String> authHeader = requestContext.getHeaders().get(AUTHORIZATION_HEADER_KEY);
 		crudDAO = new CrudDaoImpl();
 		User user = crudDAO.findUserByToken(token);
-		System.out.println(user.getId());
+	
 		if(user.getId()!=null){
 			if (validToken(user.getTokenExpire())){
 				Response unAuthorizedStatus = Response.status(Status.UNAUTHORIZED).entity("Token Exipire!!! Reconnectez vous pour un nouveau!")
@@ -88,8 +117,17 @@ public class RequestFilter implements ContainerRequestFilter {
 		}	
 	}
 	
+	List<String> listUrl = new ArrayList<String>();
+	public void remplir(){
+		listUrl.add("rest/user");
+		listUrl.add("rest/login");
+	}
 	public Boolean acceptUrl(String url){
-		
+		for (String u : listUrl) {
+			if (url.contains(u)) {
+				return true;
+			}
+		}
 		return true;
 	}
 }
