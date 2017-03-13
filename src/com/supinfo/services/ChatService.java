@@ -25,7 +25,10 @@ import org.glassfish.jersey.server.model.MethodList.Filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.supinfo.dao.CrudDaoImpl;
 import com.supinfo.dao.MessageDaoImpl;
+import com.supinfo.entities.Chat;
+import com.supinfo.entities.Message;
 import com.supinfo.entities.User;
+import com.supinfo.entities.UserHasChat;
 
 
 @Path("/rest")
@@ -89,8 +92,95 @@ public class ChatService {
 	public User login(@FormParam(value="login") String login,@FormParam(value="mdp") String mdp){
 		return crudDao.login(login, mdp);
 	}
+	//Chat
+	@POST
+	@Path("/chat")
+	public Chat addChat(Chat c) {
+		c.setDateCreate(new Date());
+		c.setDateUpdate(new Date());
+		return crudDao.addChat(c);
+	}
+	@PUT
+	@Path("/chat")
+	public Chat updateChat(Chat c) {
+		c.setDateUpdate(new Date());
+		return crudDao.updateChat(c);
+	}
+	@GET
+	@Path("/chat/{idChat}")
+	public Chat getCHatByid (@PathParam(value="idChat")Integer idChat) {
+		return crudDao.findChatById(idChat);
+	}
+	@GET
+	@Path("/chat/mc")
+	public List<Chat> getChatByMc (@QueryParam(value="mc")String mc) {
+		return crudDao.getChatByString(mc);
+	}
+	@DELETE
+	@Path("/chat")
+	public int delChat (@PathParam(value="idChat")Integer idChat) {
+		return crudDao.delChatById(idChat);
+	}
 	
-
+	//Message
+	@POST
+	@Path("/message")
+	public Message addMessageText(Message m,String Mess, Integer idUser, Integer idChat ) {
+		m.setDateCreate(new Date());
+		m.setDateUpdate(new Date());
+		return messageDao.addMessageText(Mess, idUser, idChat);
+	}
+	@POST
+	@Path("/message")
+	public Message addMessageFile(Message m,String url,String urlLite, Integer type, Integer idUser, Integer idChat) {
+		m.setDateCreate(new Date());
+		m.setDateUpdate(new Date());
+		return messageDao.addMessageFile(url, urlLite, type, idUser, idChat);
+	}
+	@PUT
+	@Path("/message")
+	public Message updateMessage (Message m) {
+		m.setDateUpdate(new Date());
+		return messageDao.updateMessage(m);
+	}
+	@GET
+	@Path("/message/{idMessage}")
+	public Message getMessageByid (@PathParam(value="idMessage") Integer idMessage) {
+		return messageDao.findMessageById(idMessage);
+	}
+	@GET
+	@Path("/message/mc")
+	public List<Message> getMessageByMc (@QueryParam(value="mc")String mc) {
+		return messageDao.getMessageByString(mc);
+	}
+	@DELETE
+	@Path("/message")
+	public int delMessage (int idMess) {
+		return messageDao.delMessageById(idMess);
+	}
+	
+	//UserHasChat
+	@POST
+	@Path("/userhasChat")
+	public UserHasChat addUHC(UserHasChat uhc) {
+		return crudDao.addUHC(uhc);
+	}
+	@PUT
+	@Path("/userhasChat")
+	public UserHasChat updateUHC(UserHasChat uhc) {
+		return crudDao.updateUHC(uhc);
+	}
+	@GET
+	@Path("/userhasChat/{idUHC}")
+	public UserHasChat getUHCByid (@PathParam(value="idUHC")Integer idUHC) {
+		return crudDao.findUHC(idUHC);
+	}
+	@DELETE
+	@Path("/userhasChat")
+	public int delUserHasChat (@PathParam(value="idUHC")Integer idUHC) {
+		return crudDao.delChatById(idUHC);
+	}
+	
 	@GET
 	@Path("/test")
 	@Produces(MediaType.APPLICATION_JSON)
