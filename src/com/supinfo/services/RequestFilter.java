@@ -34,15 +34,15 @@ public class RequestFilter implements ContainerRequestFilter {
 			token = token.substring("Basic".length()).trim();
 		} catch (Exception e) {
 			System.out.println("requete sans token");
-			Response unAuthorizedStatus = Response.status(Status.UNAUTHORIZED).entity("Requete sans token!!!")
-					.build();
-			requestContext.abortWith(unAuthorizedStatus);
+			token = "jdkfdfjkjfdkdf";
+
 		}
 		String test = requestContext.getUriInfo().getPath();
 		System.out.println(test);
 		if (acceptUrl(test)){
 			if (test.equals("rest/user")) {
 				if(requestContext.getMethod().equals("POST")){
+					
 					return;
 				}else{
 					crudDAO = new CrudDaoImpl();
@@ -72,12 +72,13 @@ public class RequestFilter implements ContainerRequestFilter {
 						}
 				}
 			}
+			System.out.println("tttt");
 			return;
 		}else{
-//		List<String> authHeader = requestContext.getHeaders().get(AUTHORIZATION_HEADER_KEY);
 		crudDAO = new CrudDaoImpl();
 		User user = crudDAO.findUserByToken(token);
-	
+		System.out.println("passer");
+		System.out.println(user.getId());
 		if(user.getId()!=null){
 			if (validToken(user.getTokenExpire())){
 				Response unAuthorizedStatus = Response.status(Status.UNAUTHORIZED).entity("Token Exipire!!! Reconnectez vous pour un nouveau!")
@@ -122,13 +123,17 @@ public class RequestFilter implements ContainerRequestFilter {
 		listUrl.add("rest/user");
 		listUrl.add("rest/login");
 	}
+	
 	public Boolean acceptUrl(String url){
+		remplir();
+		System.out.println(url);
 		for (String u : listUrl) {
-			if (url.contains(u)) {
+			if (url.equals(u)) {
+				
 				return true;
 			}
 		}
-		return true;
+		return false;
 	}
 }
 	
