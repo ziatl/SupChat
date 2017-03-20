@@ -101,6 +101,11 @@ public class ChatService {
 	public Chat addChat(Chat chat){
 		return chatDao.addChat(chat);
 	}
+	@GET
+	@Path("/chat/{id}")
+	public List<Chat> getChatByUser(@PathParam(value="id")Integer userId){
+		return chatDao.getChatByUser(userId);	
+	}
 
 	
 	@GET

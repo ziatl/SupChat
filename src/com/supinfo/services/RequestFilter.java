@@ -73,15 +73,28 @@ public class RequestFilter implements ContainerRequestFilter {
 						}
 				}
 			}
-			System.out.println("tttt");
+			
 			return;
 		}else{
 			
 		String methode = requestContext.getMethod();
+		System.out.println(methode);
 		if (methode.equals("OPTIONS")) {
-		
+			System.out.println("Option enter");
+			System.out.println(requestContext.getHeaders());
+			
 			return;
 		}
+		
+		token = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
+		try {
+			token = token.substring("Basic".length()).trim();
+		} catch (Exception e) {
+			System.out.println("requete sans token");
+			token = "jdkfdfjkjfdkdf";
+
+		}
+		System.out.println(requestContext.getHeaders());
 		crudDAO = new CrudDaoImpl();
 		User user = crudDAO.findUserByToken(token);
 		System.out.println("passer");

@@ -1,12 +1,16 @@
 package com.supinfo.dao;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityTransaction;
+import javax.persistence.Query;
 
 import com.supinfo.database.PersistenceManager;
 import com.supinfo.entities.Chat;
+import com.supinfo.entities.User;
 import com.supinfo.entities.UserHasChat;
 import com.supinfo.interfaces.IChat;
 
@@ -66,8 +70,20 @@ public class ChatDaoImpl implements IChat {
 		}	
 	}
 	@Override
-	public Chat getChatByUser(Integer id) {
-		// TODO Auto-generated method stub
-		return null;
+	public List<Chat> getChatByUser(Integer id) {
+		Query q = em.createQuery("SELECT u.chat FROM UserHasChat u WHERE u.user.id=:X");
+		q.setParameter("X", id);
+		try {
+			List<Chat> lchat = q.getResultList();
+			if (lchat.size() > 0){
+				return lchat;
+			}else{
+				return new ArrayList<Chat>();
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			return new ArrayList<Chat>();
+		}	
+	
 	}
 }
