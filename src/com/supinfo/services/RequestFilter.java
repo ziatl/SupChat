@@ -15,6 +15,7 @@ import javax.ws.rs.ext.Provider;
 
 import org.glassfish.jersey.internal.util.Base64;
 
+import com.sun.research.ws.wadl.Option;
 import com.supinfo.dao.CrudDaoImpl;
 import com.supinfo.entities.User;
 
@@ -75,6 +76,12 @@ public class RequestFilter implements ContainerRequestFilter {
 			System.out.println("tttt");
 			return;
 		}else{
+			
+		String methode = requestContext.getMethod();
+		if (methode.equals("OPTIONS")) {
+		
+			return;
+		}
 		crudDAO = new CrudDaoImpl();
 		User user = crudDAO.findUserByToken(token);
 		System.out.println("passer");
@@ -128,8 +135,7 @@ public class RequestFilter implements ContainerRequestFilter {
 		remplir();
 		System.out.println(url);
 		for (String u : listUrl) {
-			if (url.equals(u)) {
-				
+			if (url.equals(u)) {	
 				return true;
 			}
 		}

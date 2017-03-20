@@ -15,6 +15,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="chat")
 public class Chat implements Serializable {
@@ -27,15 +29,16 @@ public class Chat implements Serializable {
 		private int type;
 		private Date dateCreate;
 		private Date dateUpdate;
+		private Integer creator;
 				
 //		//@JoinTable(name="user_has_cours",joinColumns=@JoinColumn(name="chat_id",referencedColumnName="id"),inverseJoinColumns=@JoinColumn(name="user_id",referencedColumnName="id"))
 //		@ManyToMany
 //		@JoinTable(name="user_has_chat")
 //		private List<User> users;
-		
+		@JsonIgnore
 		@OneToMany(mappedBy="chat")
 		private List<Message> messages;
-		
+		@JsonIgnore
 		@OneToMany(mappedBy="chat")
 		private List<UserHasChat> userHasChats;
 		
@@ -104,6 +107,13 @@ public class Chat implements Serializable {
 			super();
 			// TODO Auto-generated constructor stub
 		}
+		public Integer getCreator() {
+			return creator;
+		}
+		public void setCreator(Integer creator) {
+			this.creator = creator;
+		}
+		
 		
 		
 }

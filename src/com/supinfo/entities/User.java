@@ -13,6 +13,7 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.annotation.JsonInclude.Include;
 
@@ -36,14 +37,18 @@ public class User implements Serializable {
 		private Date dateUpdate;
 		private Date lastConnect;
 		
+		@JsonIgnore
 		@OneToMany(mappedBy="user")
 		private List<Device> devices;
 		
+		@JsonIgnore
 		@OneToMany(mappedBy="user",fetch=FetchType.LAZY)
 		private List<Message> messages;
 		
+		@JsonIgnore
 		@OneToMany(mappedBy="user")
 		private List<UserHasChat> userHasChats;
+		
 		
 		public List<UserHasChat> getUserHasChats() {
 			return userHasChats;
