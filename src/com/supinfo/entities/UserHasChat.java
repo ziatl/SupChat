@@ -3,9 +3,9 @@ package com.supinfo.entities;
 import java.io.Serializable;
 import java.util.Date;
 
-import javax.persistence.EmbeddedId;
+
 import javax.persistence.Entity;
-import javax.persistence.FetchType;
+
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -29,7 +29,7 @@ public class UserHasChat implements Serializable {
 	
 	private boolean admin;
 	private int status; 
-	private String detials;
+	private String detail;
 	private boolean push;
 	private Date connectAt;
 	
@@ -63,11 +63,11 @@ public class UserHasChat implements Serializable {
 	public void setStatus(int status) {
 		this.status = status;
 	}
-	public String getDetials() {
-		return detials;
+	public String getDetail() {
+		return detail;
 	}
-	public void setDetials(String detials) {
-		this.detials = detials;
+	public void setDetail(String detials) {
+		this.detail = detials;
 	}
 	public boolean isPush() {
 		return push;
@@ -93,7 +93,7 @@ public class UserHasChat implements Serializable {
 		this.chat = chat;
 		this.admin = admin;
 		this.status = status;
-		this.detials = detials;
+		this.detail = detials;
 		this.push = push;
 	}
 	

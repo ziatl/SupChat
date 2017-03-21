@@ -15,7 +15,6 @@ import javax.persistence.Table;
 import org.glassfish.jersey.server.JSONP;
 
 
-
 @Entity
 @Table(name="devise")
 public class Device implements Serializable {

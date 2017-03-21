@@ -10,6 +10,13 @@ public interface IChat {
 	public List<Chat> getChatByUser(Integer id);
 	public UserHasChat addUserHasChat(UserHasChat uhc);
 	
+	public Chat findChatById(Integer id);
+	public int delChatById(Integer id);
+	public List<UserHasChat> findUHCByChat(Integer idChat);
+	public int delUHCByChat(Integer idChat);
+	
+
+	
 	
 
 }

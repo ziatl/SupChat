@@ -90,6 +90,7 @@ public class ChatService {
 	public int deleteUser(@PathParam(value="idUser")Integer idUser) {
 			return crudDao.delChatById(idUser);
 	}
+	
 	@POST
 	@Path("/login")
 	public User login(@FormParam(value="login") String login,@FormParam(value="mdp") String mdp){
@@ -101,10 +102,17 @@ public class ChatService {
 	public Chat addChat(Chat chat){
 		return chatDao.addChat(chat);
 	}
+	
 	@GET
 	@Path("/chat/{id}")
 	public List<Chat> getChatByUser(@PathParam(value="id")Integer userId){
 		return chatDao.getChatByUser(userId);	
+	}
+	
+	@DELETE
+	@Path("/chat/{idChat}")
+	public int deleteChat(@PathParam(value="idChat")Integer idChat) {
+			return chatDao.delChatById(idChat);
 	}
 
 	
