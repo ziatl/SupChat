@@ -147,20 +147,13 @@ public class ChatDaoImpl implements IChat {
 	@Override
 	public int delChatById(Integer id) {
 		// TODO Auto-generated method stub
-		try {
-			delUHCByChat(id);
-		} catch (Exception e) {
-			System.out.println("non non non");
-		}
-		if (String.valueOf(findChatById(id).getId()).equals("null")){
-			return 0;
-		}
-		
 		EntityManager em = PersistenceManager.getEntityManager();
 		EntityTransaction et = em.getTransaction();
-		
 		try {
 			et.begin();
+			Query q1 = em.createQuery("delete from UserHasChat u where u.chat.id=:X");
+			q1.setParameter("X", id);
+			q1.executeUpdate();
 			Query q = em.createQuery("delete from Chat u where u.id=:X");
 			q.setParameter("X", id);
 			q.executeUpdate();
