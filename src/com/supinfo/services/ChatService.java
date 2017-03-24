@@ -36,7 +36,9 @@ import com.supinfo.entities.UserHasChat;
 @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 
 public class ChatService {
-
+	private User user;
+	private Chat chat;
+	private UserHasChat uhc;
 	public CrudDaoImpl crudDao;
 	public MessageDaoImpl messageDao;
 	public ChatDaoImpl chatDao;
@@ -114,8 +116,29 @@ public class ChatService {
 	public int deleteChat(@PathParam(value="idChat")Integer idChat) {
 			return chatDao.delChatById(idChat);
 	}
-
 	
+	//UHC
+	@POST
+	@Path("/userHasChat/{idUser}/{idChat}")
+	public UserHasChat addUHC (@PathParam(value="idUser")Integer idUser,@PathParam(value="idChat")Integer idChat,UserHasChat uhc) {
+		System.out.println("IdUser "+idUser);
+		System.out.println("IdChat"+idChat);
+		System.out.println(uhc.getId());
+		uhc.setUser(crudDao.findUserById(idUser));
+		uhc.setChat(chatDao.findChatById(idChat));
+		return chatDao.addUserHasChat(uhc);		 
+	}
+	@DELETE
+	@Path("/userHasChat")
+	public UserHasChat delUHC (UserHasChat uhc) {
+		return delUHC(uhc);
+	}
+	//Contacts
+	@GET
+	@Path("/contact/{idUser}")
+	public List<User> contact (@PathParam(value="idUser")Integer idUser){
+		return chatDao.findUserByUserId(idUser);
+	}
 	@GET
 	@Path("/test")
 	@Produces(MediaType.APPLICATION_JSON)

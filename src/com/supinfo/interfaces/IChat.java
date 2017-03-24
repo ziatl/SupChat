@@ -3,6 +3,7 @@ package com.supinfo.interfaces;
 import java.util.List;
 
 import com.supinfo.entities.Chat;
+import com.supinfo.entities.User;
 import com.supinfo.entities.UserHasChat;
 
 public interface IChat {
@@ -14,6 +15,7 @@ public interface IChat {
 	public int delChatById(Integer id);
 	public List<UserHasChat> findUHCByChat(Integer idChat);
 	public int delUHCByChat(Integer idChat);
+	public List<User> findUserByUserId(Integer id);
 	
 
 	
