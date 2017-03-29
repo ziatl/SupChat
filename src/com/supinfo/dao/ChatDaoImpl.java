@@ -132,7 +132,28 @@ public class ChatDaoImpl implements IChat {
 		return q.getResultList();
 	}
 	@Override
-	public List<Chat>
+	public Integer delUserHasCHat(Integer idUser, Integer idChat) {
+		// TODO Auto-generated method stub
+		
+		EntityManager em = PersistenceManager.getEntityManager();
+		EntityTransaction et = em.getTransaction();
+		try {
+			et.begin();
+			Query q = em.createQuery("delete from UserHasChat u where u.user.id=:X and u.chat.id=:Y");
+			q.setParameter("X", idUser);
+			q.setParameter("Y", idChat);
+			q.executeUpdate();
+			et.commit();
+			em.close(); 
+			return 1;
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			System.out.println("catch");
+			em.close();
+			return 0;
+		}	
+	}
+
 	@Override
 	public int delUHCByChat(Integer idChat) {
 		List<UserHasChat> liste = findUHCByChat(idChat);

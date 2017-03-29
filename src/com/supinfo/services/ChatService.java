@@ -142,6 +142,15 @@ public class ChatService {
 	public UserHasChat delUHC (UserHasChat uhc) {
 		return delUHC(uhc);
 	}
+	@DELETE
+	@Path("/userHasChat/{idUser}/{idChat}")
+	public Integer delUHCUC (@PathParam(value="idUser")Integer idUser,@PathParam(value="idChat")Integer idChat) {
+		return chatDao.delUserHasCHat(idUser, idChat);
+	}
+	
+	
+	
+	
 	//Contacts
 	@GET
 	@Path("/contact/{idUser}")
