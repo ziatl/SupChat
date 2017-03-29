@@ -116,7 +116,11 @@ public class ChatService {
 	public int deleteChat(@PathParam(value="idChat")Integer idChat) {
 			return chatDao.delChatById(idChat);
 	}
-	
+	@GET
+	@Path("/chatPublic/")
+	public List<Chat> getChatPublic() {
+		return chatDao.getChatPublic();
+	}
 	//UHC
 	@POST
 	@Path("/userHasChat/{idUser}/{idChat}")

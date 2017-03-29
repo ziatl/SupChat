@@ -121,6 +121,11 @@ public class ChatDaoImpl implements IChat {
 		}	
 	}
 	@Override
+	public List<Chat> getChatPublic() {
+		Query q = em.createQuery("SELECT c FROM Chat c WHERE c.type = 1");
+		return q.getResultList();
+	}
+	@Override
 	public int delUHCByChat(Integer idChat) {
 		List<UserHasChat> liste = findUHCByChat(idChat);
 		System.out.println(liste.size());
