@@ -121,6 +121,11 @@ public class ChatService {
 	public List<Chat> getChatPublic() {
 		return chatDao.getChatPublic();
 	}
+	@GET
+	@Path("/chatPrivate/{idUser}")
+	public List<Chat> getCHatPrivate(@PathParam(value="idUser")Integer idUser) {
+		return chatDao.getChatPrivate(idUser);
+	}
 	//UHC
 	@POST
 	@Path("/userHasChat/{idUser}/{idChat}")
