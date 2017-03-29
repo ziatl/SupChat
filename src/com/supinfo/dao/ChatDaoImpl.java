@@ -122,7 +122,7 @@ public class ChatDaoImpl implements IChat {
 	}
 	@Override
 	public List<Chat> getChatPublic() {
-		Query q = em.createQuery("SELECT c FROM Chat c WHERE c.type = 1");
+		Query q = em.createQuery("SELECT c FROM Chat c WHERE c.type = 2");
 		return q.getResultList();
 	}
 	@Override
@@ -131,6 +131,8 @@ public class ChatDaoImpl implements IChat {
 		q.setParameter("X", idUser);
 		return q.getResultList();
 	}
+	@Override
+	public List<Chat>
 	@Override
 	public int delUHCByChat(Integer idChat) {
 		List<UserHasChat> liste = findUHCByChat(idChat);
