@@ -117,12 +117,12 @@ public class ChatService {
 			return chatDao.delChatById(idChat);
 	}
 	@GET
-	@Path("/chatPublic/")
+	@Path("/chat/public")
 	public List<Chat> getChatPublic() {
 		return chatDao.getChatPublic();
 	}
 	@GET
-	@Path("/chatPrivate/{idUser}")
+	@Path("/chat/private/{idUser}")
 	public List<Chat> getCHatPrivate(@PathParam(value="idUser")Integer idUser) {
 		return chatDao.getChatPrivate(idUser);
 	}
