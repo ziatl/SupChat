@@ -20,6 +20,7 @@ public interface IChat {
 	public List<Chat> getChatPublic();
 	public List<Chat> getChatPrivate(Integer idUser);
 	
+	public User addContact(Integer idUser1,Integer idUser2);
 
 	
 	

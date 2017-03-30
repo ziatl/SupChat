@@ -157,6 +157,12 @@ public class ChatService {
 	public List<User> contact (@PathParam(value="idUser")Integer idUser){
 		return chatDao.findUserByUserId(idUser);
 	}
+	
+	@POST
+	@Path("/contact")
+	public User addContact(@FormParam(value="id1")Integer idUser1,@FormParam(value="id2")Integer idUser2){
+		return chatDao.addContact(idUser1, idUser2);
+	}
 	@GET
 	@Path("/test")
 	@Produces(MediaType.APPLICATION_JSON)

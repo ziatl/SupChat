@@ -205,4 +205,46 @@ public class ChatDaoImpl implements IChat {
 			return 0;
 		}	
 	}
+	@Override
+	public User addContact(Integer idUser1, Integer idUser2) {
+		User user1 = crudDao.findUserById(idUser1);
+		User user2 = crudDao.findUserById(idUser2);
+		//crreation du chat entre les 2 user et automatique UserHasChat pour le premier User
+		Chat chat = new Chat();
+		chat.setType(0);
+		chat.setStatut(0);
+		chat.setCreator(idUser1);
+		chat.setDateCreate(new Date());
+		chat.setDateUpdate(new Date());
+
+		//UserHasChat pour le second avec statut = 2 (pending)
+		EntityTransaction et = em.getTransaction();
+		try {
+			et.begin();
+			em.persist(chat);
+			
+			
+			UserHasChat uhc1 = new UserHasChat();
+			uhc1.setChat(chat);
+			uhc1.setUser(user1);
+			uhc1.setAdmin(true);
+			uhc1.setStatus(1);
+			em.persist(uhc1);
+			
+			UserHasChat uhc2 = new UserHasChat();
+			uhc1.setChat(chat);
+			uhc1.setUser(user2);
+			uhc1.setAdmin(false);
+			uhc1.setStatus(0);
+			em.persist(uhc2);
+
+			et.commit();;
+			
+			
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return null;
+		}	
+		return user2;
+	}
 }
