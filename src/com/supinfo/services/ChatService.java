@@ -1,6 +1,7 @@
 package com.supinfo.services;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -163,6 +164,7 @@ public class ChatService {
 	public User addContact(@FormParam(value="id1")Integer idUser1,@FormParam(value="id2")Integer idUser2){
 		return chatDao.addContact(idUser1, idUser2);
 	}
+	
 	@GET
 	@Path("/test")
 	@Produces(MediaType.APPLICATION_JSON)
@@ -171,6 +173,15 @@ public class ChatService {
 		User user = crudDao.findUserById(3);
 		Response response = Response.status(Status.OK).entity(user).build();
 		return response;
+	}
+	@GET
+	@Path("/testT")
+	@Produces(MediaType.APPLICATION_JSON)
+	public List<User> testUser(){	
+		User user = crudDao.findUserById(3);
+		List<User> us = new ArrayList<User>();
+		us.add(user);
+		return us;
 	}
 	
 }

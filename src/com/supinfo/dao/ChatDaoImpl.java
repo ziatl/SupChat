@@ -232,15 +232,14 @@ public class ChatDaoImpl implements IChat {
 			em.persist(uhc1);
 			
 			UserHasChat uhc2 = new UserHasChat();
-			uhc1.setChat(chat);
-			uhc1.setUser(user2);
-			uhc1.setAdmin(false);
-			uhc1.setStatus(0);
+			uhc2.setChat(chat);
+			uhc2.setUser(user2);
+			uhc2.setAdmin(false);
+			uhc2.setStatus(0);
 			em.persist(uhc2);
 
-			et.commit();;
-			
-			
+			et.commit();
+	
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
 			return null;

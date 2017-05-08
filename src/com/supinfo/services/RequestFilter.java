@@ -25,134 +25,14 @@ public class RequestFilter implements ContainerRequestFilter {
 	private static final String AUTHORIZATION_HEADER_KEY = "authorization";
 	private static final String AUTHORIZATION_HEADER_PREFIX = "Basic ";
 	private CrudDaoImpl crudDAO = new CrudDaoImpl();
-
+	
 	@SuppressWarnings("deprecation")
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {
-		System.out.println("Entre du filter");
-		String token = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
-		try {
-			token = token.substring("Basic".length()).trim();
-		} catch (Exception e) {
-			System.out.println("requete sans token");
-			token = "jdkfdfjkjfdkdf";
-
-		}
-		String test = requestContext.getUriInfo().getPath();
-		System.out.println(test);
-		if (acceptUrl(test)){
-			if (test.equals("rest/user")) {
-				if(requestContext.getMethod().equals("POST")){
-					
-					return;
-				}else{
-					crudDAO = new CrudDaoImpl();
-					User user = crudDAO.findUserByToken(token);
-				
-					if(user.getId()!=null){
-						if (validToken(user.getTokenExpire())){
-							Response unAuthorizedStatus = Response.status(Status.UNAUTHORIZED).entity("Token Exipire!!! Reconnectez vous pour un nouveau!")
-									.build();
-							requestContext.abortWith(unAuthorizedStatus);
-						}else{
-							Date date = new Date();
-							System.out.println(date);
-							date.setMinutes(date.getMinutes()+20);
-							System.out.println(date);
-							user.setTokenExpire(date);
-							CrudDaoImpl cc = new CrudDaoImpl();
-							cc.updateUser(user);
-							//autorise
-							return;
-						}
-					}else{
-						//Non autohorise
-						Response unAuthorizedStatus = Response.status(Status.UNAUTHORIZED).entity("Non authorise!!!")
-									.build();
-						requestContext.abortWith(unAuthorizedStatus);					
-						}
-				}
-			}
-			
-			return;
-		}else{
-			
-		String methode = requestContext.getMethod();
-		System.out.println(methode);
-		if (methode.equals("OPTIONS")) {
-			System.out.println("Option enter");
-			System.out.println(requestContext.getHeaders());
-			
-			return;
-		}
-		
-		token = requestContext.getHeaderString(HttpHeaders.AUTHORIZATION);
-		try {
-			token = token.substring("Basic".length()).trim();
-		} catch (Exception e) {
-			System.out.println("requete sans token");
-			token = "jdkfdfjkjfdkdf";
-
-		}
+		System.out.println(requestContext.getMethod());
+		System.out.println(requestContext.getHeaderString("Content-Type"));
 		System.out.println(requestContext.getHeaders());
-		crudDAO = new CrudDaoImpl();
-		User user = crudDAO.findUserByToken(token);
-		System.out.println("passer");
-		System.out.println(user.getId());
-		if(user.getId()!=null){
-			if (validToken(user.getTokenExpire())){
-				Response unAuthorizedStatus = Response.status(Status.UNAUTHORIZED).entity("Token Exipire!!! Reconnectez vous pour un nouveau!")
-						.build();
-				requestContext.abortWith(unAuthorizedStatus);
-			}else{
-				Date date = new Date();
-				System.out.println(date);
-				date.setMinutes(date.getMinutes()+20);
-				System.out.println(date);
-				user.setTokenExpire(date);
-				CrudDaoImpl cc = new CrudDaoImpl();
-				cc.updateUser(user);
-				//autorise
-				return;
-			}
-		}else{
-			//Non autohorise
-			Response unAuthorizedStatus = Response.status(Status.UNAUTHORIZED).entity("Non authorise!!!")
-						.build();
-			requestContext.abortWith(unAuthorizedStatus);					
-			}
-		}
-	}
-
-	public Boolean validToken(Date dateExpire){
-		if (dateExpire.before(new Date())) {
-			System.out.println(dateExpire);
-			System.out.println(new Date());
-			System.out.println("Before");
-			return true;
-		}else{
-			System.out.println(dateExpire);
-			System.out.println(new Date());
-			System.out.println("After");
-			return false;
-		}	
-	}
-	
-	List<String> listUrl = new ArrayList<String>();
-	public void remplir(){
-		listUrl.add("rest/user");
-		listUrl.add("rest/login");
-	}
-	
-	public Boolean acceptUrl(String url){
-		remplir();
-		System.out.println(url);
-		for (String u : listUrl) {
-			if (url.equals(u)) {	
-				return true;
-			}
-		}
-		return false;
+		return;
 	}
 }
 	
