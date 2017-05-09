@@ -207,6 +207,8 @@ public class ChatDaoImpl implements IChat {
 	}
 	@Override
 	public User addContact(Integer idUser1, Integer idUser2) {
+		System.out.println("Bon arrivee"+idUser1);
+		System.out.println("Bon arrivee"+idUser2);
 		User user1 = crudDao.findUserById(idUser1);
 		User user2 = crudDao.findUserById(idUser2);
 		//crreation du chat entre les 2 user et automatique UserHasChat pour le premier User

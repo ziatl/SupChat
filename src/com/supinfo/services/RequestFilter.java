@@ -32,6 +32,8 @@ public class RequestFilter implements ContainerRequestFilter {
 		System.out.println(requestContext.getMethod());
 		System.out.println(requestContext.getHeaderString("Content-Type"));
 		System.out.println(requestContext.getHeaders());
+		System.out.println(requestContext.getUriInfo().getQueryParameters());
+		System.out.println(requestContext.getUriInfo().getPathParameters());
 		return;
 	}
 }

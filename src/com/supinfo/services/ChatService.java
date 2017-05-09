@@ -35,7 +35,6 @@ import com.supinfo.entities.UserHasChat;
 
 @Path("/rest")
 @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-
 public class ChatService {
 	private User user;
 	private Chat chat;
@@ -161,7 +160,7 @@ public class ChatService {
 	
 	@POST
 	@Path("/contact")
-	public User addContact(@FormParam(value="id1")Integer idUser1,@FormParam(value="id2")Integer idUser2){
+	public User addContact(@QueryParam(value="id1")Integer idUser1,@QueryParam(value="id2")Integer idUser2){
 		return chatDao.addContact(idUser1, idUser2);
 	}
 	
