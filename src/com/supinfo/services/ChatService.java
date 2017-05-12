@@ -29,6 +29,7 @@ import com.supinfo.dao.CrudDaoImpl;
 import com.supinfo.dao.MessageDaoImpl;
 import com.supinfo.entities.Chat;
 import com.supinfo.entities.Message;
+import com.supinfo.entities.Parametre;
 import com.supinfo.entities.User;
 import com.supinfo.entities.UserHasChat;
 
@@ -163,6 +164,40 @@ public class ChatService {
 	public User addContact(@QueryParam(value="id1")Integer idUser1,@QueryParam(value="id2")Integer idUser2){
 		return chatDao.addContact(idUser1, idUser2);
 	}
+	
+	//Parametre
+	@POST
+	@Path("/Parametre")
+	public Parametre addParametre(Parametre p) {
+		return crudDao.addParametre(p);
+	}
+	
+	@PUT
+	@Path("/Parametre")
+	public Parametre updateParametre(Parametre p) {
+		return crudDao.updateParametre(p);
+	}
+	
+	@DELETE
+	@Path("/Parametre/{idParametre}")
+	public Integer delParametreById (@PathParam("idParametre")Integer idParametre){
+		return crudDao.delParametreId(idParametre);
+	}
+	
+	@GET
+	@Path("/Parametre")
+	public List<Parametre> getAllParametre() {
+		return crudDao.getAllParametre();
+	}
+	
+	@GET
+	@Path("/Parmetre/{idUser}")
+	public List<Parametre> getParametreByUserid (@PathParam(value="idUser")Integer idUser){
+		return crudDao.getParametreByUser(idUser);
+	}
+	
+	//Device
+	
 	
 	@GET
 	@Path("/test")

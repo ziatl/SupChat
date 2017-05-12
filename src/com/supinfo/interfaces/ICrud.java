@@ -4,7 +4,9 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.supinfo.entities.Chat;
+import com.supinfo.entities.Device;
 import com.supinfo.entities.Message;
+import com.supinfo.entities.Parametre;
 import com.supinfo.entities.User;
 import com.supinfo.entities.UserHasChat;
 
@@ -30,6 +32,25 @@ public interface ICrud {
 	public List<Chat> getAllChat();
 	public List<Chat> getChatByString(String mc);
 	public List<Chat> getChatByUser(Integer idUser);
+	
+	//Crud Parametre
+	public Parametre addParametre(Parametre p);
+	public Parametre findParametreById(Integer id);
+	public int delParametreId(Integer id);
+	public Parametre updateParametre(Parametre p);
+	
+	public List<Parametre> getAllParametre();
+	public List<Parametre> getParametreByUser(Integer idUser);	
+	
+	//Crud Device
+	public Device addDevice(Device d);
+	public Device findDeviceById(Integer id);
+	public int delDeviceId(Integer id);
+	public Device updateDevice(Device d);
+	
+	public List<Device> getAllDevice();
+	public List<Device> getDeviceByMc(String mc);
+	public List<Device> getDeviceByUser(Integer idUser);
 	
 	//UserHasChat
 	public UserHasChat addUHC(UserHasChat uhc);
