@@ -51,7 +51,7 @@ public class ChatService {
 	}
 	
 	@GET
-	@Path("/user")
+	@Path("/user/contact")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	public List<User> getUsers(ContainerRequestContext requestContext){
 		List<User> liste = crudDao.getAllUser();
@@ -68,6 +68,33 @@ public class ChatService {
 		}
 		return liste;
 	}
+	@GET
+	@Path("/user")
+	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+	public List<User> getUsersNotContact(ContainerRequestContext requestContext){
+		List<User> liste = crudDao.getAllUser();
+		List<User> finale = new ArrayList<User>();
+		List<User> contact = new ArrayList<User>();
+		try {
+			int idUser = Integer.parseInt(requestContext.getHeaderString("id"));
+			contact = chatDao.findUserByUserId(idUser);
+
+				for (User lis : liste) {
+				 for (User con : contact) {
+					if (!(lis.getId() == con.getId()) && (lis.getId() != idUser)) {
+						finale.add(lis);
+					}
+				}
+			}
+			
+			System.out.println(finale.size());
+		} catch (Exception e) {
+			System.out.println(e);
+		}
+		return finale;
+	}
+	
+	
 	
 	@POST
 	@Path("/user")

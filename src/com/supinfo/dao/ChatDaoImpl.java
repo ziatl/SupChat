@@ -103,7 +103,7 @@ public class ChatDaoImpl implements IChat {
 				+ "SELECT u FROM User u WHERE u.id IN "
 				+ "(SELECT h.user.id FROM UserHasChat h WHERE h.chat.id IN "
 				+ "(SELECT c.id FROM Chat c WHERE c.id IN "
-				+ "(SELECT d.chat.id FROM UserHasChat d WHERE d.user.id =:X) and c.type = 0))");
+				+ "(SELECT d.chat.id FROM UserHasChat d WHERE d.user.id =:X) and c.type = 0)) and u.id !=:X");
 		u.setParameter("X", id);
 		return u.getResultList();	
 	}
