@@ -18,7 +18,7 @@ public class ResponseFilter implements ContainerResponseFilter {
 		
 		responseContext.getHeaders().add("Access-Control-Allow-Origin", "*");
 		responseContext.getHeaders().add("Access-Control-Allow-Headers",
-                "origin, content-type, accept, authorization");
+                "origin, content-type, accept, authorization,id");
 		
 		responseContext.getHeaders().add("Access-Control-Allow-Credentials","true");
 		responseContext.getHeaders().add("Access-Control-Allow-Methods",

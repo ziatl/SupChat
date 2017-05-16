@@ -53,8 +53,20 @@ public class ChatService {
 	@GET
 	@Path("/user")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	public List<User> getUsers(){
-		return crudDao.getAllUser();
+	public List<User> getUsers(ContainerRequestContext requestContext){
+		List<User> liste = crudDao.getAllUser();
+		try {
+			int id = Integer.parseInt(requestContext.getHeaderString("id"));
+			
+			for (User user : liste) {
+				if (user.getId() == id) {
+					liste.remove(user);
+				}
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+		}
+		return liste;
 	}
 	
 	@POST
