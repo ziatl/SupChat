@@ -177,6 +177,13 @@ public class ChatService {
 	public List<Chat> getCHatPrivate(@PathParam(value="idUser")Integer idUser) {
 		return chatDao.getChatPrivate(idUser);
 	}
+	@PUT
+	@Path("/chat")
+	public Chat updateChat(Chat c){
+		c.setDateUpdate(new Date());
+		crudDao.updateChat(c);
+		return c; 
+	}
 	//UHC
 	@POST
 	@Path("/userHasChat/{idUser}/{idChat}")
