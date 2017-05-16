@@ -210,7 +210,7 @@ public class ChatDaoImpl implements IChat {
 		}	
 	}
 	@Override
-	public User addContact(Integer idUser1, Integer idUser2) {
+	public User addContact(Integer idUser1, Integer idUser2,String libelle) {
 		System.out.println("Bon arrivee"+idUser1);
 		System.out.println("Bon arrivee"+idUser2);
 		User user1 = crudDao.findUserById(idUser1);
@@ -220,6 +220,7 @@ public class ChatDaoImpl implements IChat {
 		chat.setType(0);
 		chat.setStatut(0);
 		chat.setCreator(idUser1);
+		chat.setLibelle(libelle);
 		chat.setDateCreate(new Date());
 		chat.setDateUpdate(new Date());
 

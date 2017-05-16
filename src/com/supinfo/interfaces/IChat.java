@@ -20,7 +20,7 @@ public interface IChat {
 	public List<Chat> getChatPublic();
 	public List<Chat> getChatPrivate(Integer idUser);
 	
-	public User addContact(Integer idUser1,Integer idUser2);
+	public User addContact(Integer idUser1,Integer idUser2,String libelle);
 	public int delContact(Integer id1,Integer id2,Integer status);
 
 	

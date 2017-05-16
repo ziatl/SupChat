@@ -206,9 +206,6 @@ public class ChatService {
 		return chatDao.delUserHasCHat(idUser, idChat);
 	}
 	
-	
-	
-	
 	//Contacts
 	@GET
 	@Path("/contact/{idUser}")
@@ -218,8 +215,8 @@ public class ChatService {
 	
 	@POST
 	@Path("/contact")
-	public User addContact(@QueryParam(value="id1")Integer idUser1,@QueryParam(value="id2")Integer idUser2){
-		return chatDao.addContact(idUser1, idUser2);
+	public User addContact(@QueryParam(value="id1")Integer idUser1,@QueryParam(value="id2")Integer idUser2,@QueryParam("libelle") String libelle){
+		return chatDao.addContact(idUser1, idUser2,libelle);
 	} 
 	
 	@DELETE
@@ -273,14 +270,16 @@ public class ChatService {
 		Response response = Response.status(Status.OK).entity(user).build();
 		return response;
 	}
-	@GET
+	@POST
 	@Path("/testT")
 	@Produces(MediaType.APPLICATION_JSON)
-	public List<User> testUser(){	
+	public List<User> testUser(User u){	
+		System.out.println(u.getNom());
 		User user = crudDao.findUserById(3);
 		List<User> us = new ArrayList<User>();
 		us.add(user);
 		return us;
 	}
+	
 	
 }
