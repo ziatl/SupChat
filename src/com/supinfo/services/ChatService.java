@@ -79,17 +79,28 @@ public class ChatService {
 			int idUser = Integer.parseInt(requestContext.getHeaderString("id"));
 			contact = chatDao.findUserByUserId(idUser);
 
+			System.out.println(contact.size());
 				for (User lis : liste) {
+				
 				 for (User con : contact) {
 					if (!(lis.getId() == con.getId()) && (lis.getId() != idUser)) {
 						finale.add(lis);
 					}
 				}
 			}
+				if (contact.size()==0) {
+					for (User lis : liste) {
+						if ((lis.getId() != idUser)) {
+							finale.add(lis);
+						}
+					}
+				}
 			
 			System.out.println(finale.size());
 		} catch (Exception e) {
+			
 			System.out.println(e);
+			return liste;
 		}
 		return finale;
 	}
@@ -202,7 +213,15 @@ public class ChatService {
 	@Path("/contact")
 	public User addContact(@QueryParam(value="id1")Integer idUser1,@QueryParam(value="id2")Integer idUser2){
 		return chatDao.addContact(idUser1, idUser2);
-	}
+	} 
+	
+	@DELETE
+	@Path("/contact/{idUser}")
+	public int addContact(@PathParam(value="idUser")Integer id2,ContainerRequestContext requestContext){
+		int id = Integer.parseInt(requestContext.getHeaderString("id"));
+		User user = crudDao.findUserById(id);
+		return chatDao.delContact(user.getId(), id2,0);
+	} 
 	
 	//Parametre
 	@POST
