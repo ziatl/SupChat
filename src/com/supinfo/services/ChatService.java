@@ -217,7 +217,7 @@ public class ChatService {
 	
 	@DELETE
 	@Path("/contact/{idUser}")
-	public int addContact(@PathParam(value="idUser")Integer id2,ContainerRequestContext requestContext){
+	public int delContact(@PathParam(value="idUser")Integer id2,ContainerRequestContext requestContext){
 		int id = Integer.parseInt(requestContext.getHeaderString("id"));
 		User user = crudDao.findUserById(id);
 		return chatDao.delContact(user.getId(), id2,0);

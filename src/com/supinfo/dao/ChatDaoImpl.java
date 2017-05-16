@@ -254,13 +254,17 @@ public class ChatDaoImpl implements IChat {
 	}
 	@Override
 	public int delContact(Integer id1,Integer id2,Integer status) {
-		List<UserHasChat> liste = new ArrayList<UserHasChat>();
+		List<Chat> liste = new ArrayList<Chat>();
 		try {
-			Query q = em.createQuery("SELECT us FROM UserHasChat us WHERE us.user.id =:X AND us.chat.id IN (SELECT c FROM Chat c JOIN UserHasChat us ON us.chat.id = c.id WHERE c.type = 0 AND us.user.id =:Y)");
-			q.setParameter("X", id1);
-			q.setParameter("Y", id2);
+			//Query q = em.createQuery("SELECT us FROM UserHasChat us WHERE us.user.id =:X AND us.chat.id IN (SELECT c FROM Chat c JOIN UserHasChat us ON us.chat.id = c.id WHERE c.type = 0 AND us.user.id =:Y)");
+			//tous les chat dont l id du user2 
+			Query q = em.createQuery("SELECT c FROM UserHasChat us JOIN us.chat c where us.chat.id = c.id and c.type = 2");
+			//q.setParameter("X", id1);
+			//q.setParameter("Y", id2);
 		    liste = q.getResultList();
 		    System.out.println("Taille "+liste.size());
+		    for (Chat chat : liste) {System.out.println(chat.getLibelle());}
+		   
 			return 1;
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
