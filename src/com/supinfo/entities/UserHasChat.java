@@ -32,6 +32,7 @@ public class UserHasChat implements Serializable {
 	private String detail;
 	private boolean push;
 	private Date connectAt;
+	private String libelle;
 	
 	public Integer getId() {
 		return id;
@@ -82,6 +83,13 @@ public class UserHasChat implements Serializable {
 	}
 	public void setConnectAt(Date connectAt) {
 		this.connectAt = connectAt;
+	}
+	
+	public String getLibelle() {
+		return libelle;
+	}
+	public void setLibelle(String libelle) {
+		this.libelle = libelle;
 	}
 	public UserHasChat() {
 		super();

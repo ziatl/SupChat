@@ -236,6 +236,8 @@ public class ChatDaoImpl implements IChat {
 			uhc1.setUser(user1);
 			uhc1.setAdmin(true);
 			uhc1.setStatus(1);
+			User u = crudDao.findUserById(idUser2);
+			uhc1.setLibelle(u.getPrenom() + " "+ u.getNom());
 			em.persist(uhc1);
 			
 			UserHasChat uhc2 = new UserHasChat();
