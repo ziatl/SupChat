@@ -22,7 +22,10 @@ public interface IChat {
 	
 	public User addContact(Integer idUser1,Integer idUser2,String libelle);
 	public int delContact(Integer id1,Integer id2,Integer status);
-
+	
+	public int blocContact(Integer id1,Integer id2,Integer status);
+	public int acceptContact(Integer id1,Integer id2,Integer status);
+	public int refuseContact(Integer id1,Integer id2,Integer status);
 	
 	
 
