@@ -256,7 +256,7 @@ public class ChatDaoImpl implements IChat {
 		return user2;
 	}
 	@Override
-	public int delContact(Integer id1,Integer id2,Integer status) {
+	public int updateUHCStatus(Integer id1,Integer id2,Integer status) {
 		UserHasChat uhc = new UserHasChat();
 		try {
 			// Query q = em.createQuery("SELECT us FROM UserHasChat us WHERE
@@ -271,88 +271,7 @@ public class ChatDaoImpl implements IChat {
 			q.setParameter("X", id1);
 			q.setParameter("Y", id2);
 			uhc = (UserHasChat) q.getSingleResult();
-			uhc.setStatus(5);
-			crudDao.updateUHC(uhc);
-			return uhc.getId();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			System.out.println("catch");
-			em.close();
-			return 0;
-		}	
-	}
-	
-	@Override
-	public int blocContact(Integer id1,Integer id2,Integer status) {
-		UserHasChat uhc = new UserHasChat();
-		try {
-			// Query q = em.createQuery("SELECT us FROM UserHasChat us WHERE
-			// us.user.id =:X AND us.chat.id IN (SELECT c FROM Chat c JOIN
-			// UserHasChat us ON us.chat.id = c.id WHERE c.type = 0 AND
-			// us.user.id =:Y)");
-			// tous les chat dont l id du user2
-			Query q = em.createQuery("SELECT uhc FROM UserHasChat uhc WHERE uhc.chat.id = (SELECT c FROM Chat c, Chat d WHERE c.id IN (SELECT u.chat.id FROM UserHasChat u WHERE u.user.id=:X)"
-							+ "AND d.id IN (SELECT uc.chat.id FROM UserHasChat uc WHERE uc.user.id=:Y)"
-							+ "AND c.type = 0 AND d.type = 0"
-							+ "AND c.id = d.id) AND uhc.user.id=:X");
-			q.setParameter("X", id1);
-			q.setParameter("Y", id2);
-			uhc = (UserHasChat) q.getSingleResult();
-			uhc.setStatus(0);
-			crudDao.updateUHC(uhc);
-			return uhc.getId();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			System.out.println("catch");
-			em.close();
-			return 0;
-		}	
-	}
-	
-	@Override
-	public int acceptContact(Integer id1,Integer id2,Integer status) {
-		UserHasChat uhc = new UserHasChat();
-		try {
-			// Query q = em.createQuery("SELECT us FROM UserHasChat us WHERE
-			// us.user.id =:X AND us.chat.id IN (SELECT c FROM Chat c JOIN
-			// UserHasChat us ON us.chat.id = c.id WHERE c.type = 0 AND
-			// us.user.id =:Y)");
-			// tous les chat dont l id du user2
-			Query q = em.createQuery("SELECT uhc FROM UserHasChat uhc WHERE uhc.chat.id = (SELECT c FROM Chat c, Chat d WHERE c.id IN (SELECT u.chat.id FROM UserHasChat u WHERE u.user.id=:X)"
-							+ "AND d.id IN (SELECT uc.chat.id FROM UserHasChat uc WHERE uc.user.id=:Y)"
-							+ "AND c.type = 0 AND d.type = 0"
-							+ "AND c.id = d.id) AND uhc.user.id=:X");
-			q.setParameter("X", id1);
-			q.setParameter("Y", id2);
-			uhc = (UserHasChat) q.getSingleResult();
-			uhc.setStatus(1);
-			crudDao.updateUHC(uhc);
-			return uhc.getId();
-		} catch (Exception e) {
-			System.out.println(e.getMessage());
-			System.out.println("catch");
-			em.close();
-			return 0;
-		}	
-	}
-	
-	@Override
-	public int refuseContact(Integer id1,Integer id2,Integer status) {
-		UserHasChat uhc = new UserHasChat();
-		try {
-			// Query q = em.createQuery("SELECT us FROM UserHasChat us WHERE
-			// us.user.id =:X AND us.chat.id IN (SELECT c FROM Chat c JOIN
-			// UserHasChat us ON us.chat.id = c.id WHERE c.type = 0 AND
-			// us.user.id =:Y)");
-			// tous les chat dont l id du user2
-			Query q = em.createQuery("SELECT uhc FROM UserHasChat uhc WHERE uhc.chat.id = (SELECT c FROM Chat c, Chat d WHERE c.id IN (SELECT u.chat.id FROM UserHasChat u WHERE u.user.id=:X)"
-							+ "AND d.id IN (SELECT uc.chat.id FROM UserHasChat uc WHERE uc.user.id=:Y)"
-							+ "AND c.type = 0 AND d.type = 0"
-							+ "AND c.id = d.id) AND uhc.user.id=:X");
-			q.setParameter("X", id1);
-			q.setParameter("Y", id2);
-			uhc = (UserHasChat) q.getSingleResult();
-			uhc.setStatus(3);
+			uhc.setStatus(status);
 			crudDao.updateUHC(uhc);
 			return uhc.getId();
 		} catch (Exception e) {

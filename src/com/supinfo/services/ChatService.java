@@ -219,12 +219,12 @@ public class ChatService {
 		return chatDao.addContact(idUser1, idUser2,libelle);
 	} 
 	
-	@DELETE
-	@Path("/contact/{idUser}")
-	public int delContact(@PathParam(value="idUser")Integer id2,ContainerRequestContext requestContext){
+	@GET
+	@Path("/contact/{idUser}/{status}")
+	public int updateUHCStatus(@PathParam(value="idUser")Integer id2,@PathParam(value="status")Integer status,ContainerRequestContext requestContext){
 		int id = Integer.parseInt(requestContext.getHeaderString("id"));
 		User user = crudDao.findUserById(id);
-		return chatDao.delContact(user.getId(), id2,0);
+		return chatDao.updateUHCStatus(user.getId(), id2,status);
 	} 
 	
 	//Parametre
