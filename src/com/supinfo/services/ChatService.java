@@ -1,6 +1,5 @@
 package com.supinfo.services;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -15,20 +14,14 @@ import javax.ws.rs.PathParam;
 import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.container.ContainerRequestContext;
-import javax.ws.rs.container.ContainerResponseContext;
-import javax.ws.rs.container.ContainerResponseFilter;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
-
-import org.glassfish.jersey.server.model.MethodList.Filter;
-
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.supinfo.dao.ChatDaoImpl;
 import com.supinfo.dao.CrudDaoImpl;
 import com.supinfo.dao.MessageDaoImpl;
 import com.supinfo.entities.Chat;
-import com.supinfo.entities.Message;
 import com.supinfo.entities.Parametre;
 import com.supinfo.entities.User;
 import com.supinfo.entities.UserHasChat;
@@ -37,9 +30,6 @@ import com.supinfo.entities.UserHasChat;
 @Path("/rest")
 @Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 public class ChatService {
-	private User user;
-	private Chat chat;
-	private UserHasChat uhc;
 	public CrudDaoImpl crudDao;
 	public MessageDaoImpl messageDao;
 	public ChatDaoImpl chatDao;
@@ -51,7 +41,7 @@ public class ChatService {
 	}
 	
 	@GET
-	@Path("/user/contact")
+	@Path("/user")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
 	public List<User> getUsers(ContainerRequestContext requestContext){
 		List<User> liste = crudDao.getAllUser();
@@ -69,40 +59,32 @@ public class ChatService {
 		return liste;
 	}
 	@GET
-	@Path("/user")
+	@Path("/user/contact")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	public List<User> getUsersNotContact(ContainerRequestContext requestContext){
+	public List<User> getUsersContact(ContainerRequestContext requestContext){
 		List<User> liste = crudDao.getAllUser();
-		List<User> finale = new ArrayList<User>();
 		List<User> contact = new ArrayList<User>();
 		try {
 			int idUser = Integer.parseInt(requestContext.getHeaderString("id"));
-			contact = chatDao.findUserByUserId(idUser);
-
-			System.out.println(contact.size());
-				for (User lis : liste) {
-				
-				 for (User con : contact) {
-					if (!(lis.getId() == con.getId()) && (lis.getId() != idUser)) {
-						finale.add(lis);
-					}
-				}
-			}
-				if (contact.size()==0) {
-					for (User lis : liste) {
-						if ((lis.getId() != idUser)) {
-							finale.add(lis);
-						}
-					}
-				}
-			
-			System.out.println(finale.size());
+			contact = chatDao.findUserByUserId(idUser);		
 		} catch (Exception e) {
-			
-			System.out.println(e);
 			return liste;
 		}
-		return finale;
+		return contact;
+	}
+	@GET
+	@Path("/user/notContact")
+	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
+	public List<User> getUsersNotContact(ContainerRequestContext requestContext){
+		List<User> liste = crudDao.getAllUser();
+		List<User> contact = new ArrayList<User>();
+		try {
+			int idUser = Integer.parseInt(requestContext.getHeaderString("id"));
+			contact = chatDao.findUserByUserIdNotAdd(idUser);		
+		} catch (Exception e) {
+			return liste;
+		}
+		return contact;
 	}
 	
 	

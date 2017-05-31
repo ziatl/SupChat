@@ -107,6 +107,16 @@ public class ChatDaoImpl implements IChat {
 		u.setParameter("X", id);
 		return u.getResultList();	
 	}
+	@Override
+	public List<User> findUserByUserIdNotAdd(Integer id) {
+		Query u =  em.createQuery(""
+				+ "SELECT u FROM User u WHERE u.id NOT IN "
+				+ "(SELECT h.user.id FROM UserHasChat h WHERE h.chat.id IN "
+				+ "(SELECT c.id FROM Chat c WHERE c.id IN "
+				+ "(SELECT d.chat.id FROM UserHasChat d WHERE d.user.id =:X) and c.type = 0) and h.status !=5) and u.id !=:X");
+		u.setParameter("X", id);
+		return u.getResultList();	
+	}
 	
 	@Override
 	public List<UserHasChat> findUHCByChat(Integer idChat) {

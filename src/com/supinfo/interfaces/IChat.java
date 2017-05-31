@@ -17,6 +17,7 @@ public interface IChat {
 	public List<UserHasChat> findUHCByChat(Integer idChat);
 	public int delUHCByChat(Integer idChat);
 	public List<User> findUserByUserId(Integer id);
+	public List<User> findUserByUserIdNotAdd(Integer id);
 	public List<Chat> getChatPublic();
 	public List<Chat> getChatPrivate(Integer idUser);
 	
