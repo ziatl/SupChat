@@ -61,9 +61,9 @@ public class ChatService {
 	@GET
 	@Path("/user/contact")
 	@Produces(MediaType.APPLICATION_JSON + ";charset=utf-8")
-	public List<User> getUsersContact(ContainerRequestContext requestContext){
-		List<User> liste = crudDao.getAllUser();
-		List<User> contact = new ArrayList<User>();
+	public List<UserHasChat> getUsersContact(ContainerRequestContext requestContext){
+		List<UserHasChat> liste = new ArrayList<UserHasChat>();
+		List<UserHasChat> contact = new ArrayList<UserHasChat>();
 		try {
 			int idUser = Integer.parseInt(requestContext.getHeaderString("id"));
 			contact = chatDao.findUserByUserId(idUser);		
@@ -189,11 +189,7 @@ public class ChatService {
 	}
 	
 	//Contacts
-	@GET
-	@Path("/contact/{idUser}")
-	public List<User> contact (@PathParam(value="idUser")Integer idUser){
-		return chatDao.findUserByUserId(idUser);
-	}
+	
 	
 	@POST
 	@Path("/contact")

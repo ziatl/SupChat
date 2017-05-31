@@ -98,12 +98,11 @@ public class ChatDaoImpl implements IChat {
 		return em.find(Chat.class, id);
 	}
 	@Override
-	public List<User> findUserByUserId(Integer id) {
+	public List<UserHasChat> findUserByUserId(Integer id) {
 		Query u =  em.createQuery(""
-				+ "SELECT u FROM User u WHERE u.id IN "
-				+ "(SELECT h.user.id FROM UserHasChat h WHERE h.chat.id IN "
+				+ "SELECT h FROM UserHasChat h WHERE h.chat.id IN "
 				+ "(SELECT c.id FROM Chat c WHERE c.id IN "
-				+ "(SELECT d.chat.id FROM UserHasChat d WHERE d.user.id =:X) and c.type = 0) and h.status !=5) and u.id !=:X");
+				+ "(SELECT d.chat.id FROM UserHasChat d WHERE d.user.id =:X) and c.type = 0) and h.status !=5 and h.user.id!=:X");
 		u.setParameter("X", id);
 		return u.getResultList();	
 	}
@@ -246,8 +245,6 @@ public class ChatDaoImpl implements IChat {
 			uhc1.setUser(user1);
 			uhc1.setAdmin(true);
 			uhc1.setStatus(1);
-			User u = crudDao.findUserById(idUser2);
-			uhc1.setLibelle(u.getPrenom() + " "+ u.getNom());
 			em.persist(uhc1);
 			
 			UserHasChat uhc2 = new UserHasChat();
@@ -255,6 +252,8 @@ public class ChatDaoImpl implements IChat {
 			uhc2.setUser(user2);
 			uhc2.setAdmin(false);
 			uhc2.setStatus(2);
+			User u = crudDao.findUserById(idUser2);
+			uhc2.setLibelle(u.getPrenom() + " "+ u.getNom());
 			em.persist(uhc2);
 
 			et.commit();
