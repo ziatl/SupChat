@@ -231,6 +231,14 @@ public class ChatService {
 		User user = crudDao.findUserById(id);
 		return chatDao.updateUHCStatus(user.getId(), id2,status);
 	} 
+	@GET
+	@Path("/user/invit")
+	public List<UserHasChat> getInvitation(ContainerRequestContext containerRequestContext){
+		int idUser = Integer.parseInt(containerRequestContext.getHeaderString("id"));
+		
+		return chatDao.getInvitation(idUser);
+		
+	}
 	
 	//Parametre
 	@POST

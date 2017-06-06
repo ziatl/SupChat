@@ -293,4 +293,13 @@ public class ChatDaoImpl implements IChat {
 			return 0;
 		}	
 	}
+	
+	
+	@Override
+	public List<UserHasChat> getInvitation(Integer idUser) {
+		Query u =  em.createQuery("SELECT h FROM UserHasChat h WHERE h.user.id=:X AND h.status = 2");
+		//Soit on fait un  OR ici pour Ajouter des conditions selon le statu, pending, Ban , Accepted
+		u.setParameter("X", idUser);
+		return u.getResultList();
+	}
 }

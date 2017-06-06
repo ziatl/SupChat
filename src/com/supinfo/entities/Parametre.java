@@ -24,7 +24,7 @@ public class Parametre implements Serializable {
 		private boolean video;
 		private boolean son;
 		private boolean search;
-		@JsonIgnore
+	
 		@OneToOne
 		@JoinColumn(name="idUser")
 		private User user;

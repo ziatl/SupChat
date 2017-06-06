@@ -20,6 +20,7 @@ public interface IChat {
 	public List<User> findUserByUserIdNotAdd(Integer id);
 	public List<Chat> getChatPublic();
 	public List<Chat> getChatPrivate(Integer idUser);
+	public List<UserHasChat> getInvitation(Integer idUser);
 	
 	public User addContact(Integer idUser1,Integer idUser2,String libelle);
 	public int updateUHCStatus(Integer id1,Integer id2,Integer status);
