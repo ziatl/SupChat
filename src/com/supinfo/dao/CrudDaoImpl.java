@@ -361,6 +361,7 @@ public class CrudDaoImpl implements ICrud {
 		}
 		return em.find(Parametre.class, id);
 	};
+	
 	@Override
 	public int delParametreId(Integer id) {
 		EntityManager em = PersistenceManager.getEntityManager();

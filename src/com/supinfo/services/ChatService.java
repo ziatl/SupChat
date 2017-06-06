@@ -237,6 +237,8 @@ public class ChatService {
 	@PUT
 	@Path("/parametre")
 	public Parametre updateParametre(Parametre p) {
+		Parametre pp = crudDao.findParametreById(p.getId());
+		p.setUser(pp.getUser());
 		return crudDao.updateParametre(p);
 	}
 	
@@ -253,20 +255,7 @@ public class ChatService {
 		
 		return crudDao.getParametreByUser(idUser);
 	}
-	
-	@PUT
-	@Path("paramater/{idUser}/{type}/{valeur}")
-	public Parametre updateParamaterVideo(@PathParam(value="idUser")Integer idUser,
-										  @PathParam(value="type")String type,
-										  @PathParam(value="idUser")Boolean valeur){
-		Parametre parametre = new Parametre();
-		parametre = crudDao.getParametreByUser(idUser);
-		
-		return parametre;
-	}
-	
-	
-	
+
 	//Device
 	
 	
