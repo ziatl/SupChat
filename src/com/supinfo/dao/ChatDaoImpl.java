@@ -102,7 +102,7 @@ public class ChatDaoImpl implements IChat {
 		Query u =  em.createQuery(""
 				+ "SELECT h FROM UserHasChat h WHERE h.user.id!=:X AND h.chat.id IN "
 				+ "(SELECT c.id FROM Chat c WHERE c.id IN "
-				+ "(SELECT d.chat.id FROM UserHasChat d WHERE d.user.id =:X) and c.type = 0) and h.status =1");
+				+ "(SELECT d.chat.id FROM UserHasChat d WHERE d.user.id =:X) and c.type = 0)");
 		//Soit on fait un  OR ici pour Ajouter des conditions selon le statu, pending, Ban , Accepted
 		u.setParameter("X", id);
 		return u.getResultList();	
@@ -274,13 +274,15 @@ public class ChatDaoImpl implements IChat {
 			// UserHasChat us ON us.chat.id = c.id WHERE c.type = 0 AND
 			// us.user.id =:Y)");
 			// tous les chat dont l id du user2
-			Query q = em.createQuery("SELECT uhc FROM UserHasChat uhc WHERE uhc.chat.id = (SELECT c FROM Chat c, Chat d WHERE c.id IN (SELECT u.chat.id FROM UserHasChat u WHERE u.user.id=:X)"
-							+ "AND d.id IN (SELECT uc.chat.id FROM UserHasChat uc WHERE uc.user.id=:Y)"
-							+ "AND c.type = 0 AND d.type = 0"
-							+ "AND c.id = d.id) AND uhc.user.id=:X");
-			q.setParameter("X", id1);
-			q.setParameter("Y", id2);
-			uhc = (UserHasChat) q.getSingleResult();
+			
+			List<UserHasChat> listeContact = findUserByUserId(id1);
+			for (UserHasChat userHasChat : listeContact) {
+				if (userHasChat.getUser().getId() == id2) {
+					uhc = userHasChat;
+					break;
+				}
+			}
+			
 			uhc.setStatus(status);
 			crudDao.updateUHC(uhc);
 			return uhc.getId();

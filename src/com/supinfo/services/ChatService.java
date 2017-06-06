@@ -106,6 +106,7 @@ public class ChatService {
 		return u; 
 	}
 	
+	
 	@GET
 	@Path("/user/{idUser}")
 	public User getUsersById(@PathParam(value="idUser") Integer idUser){
