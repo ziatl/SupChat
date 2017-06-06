@@ -164,6 +164,12 @@ public class ChatService {
 	public List<Chat> getChatByUser(@PathParam(value="id")Integer userId){
 		return chatDao.getChatByUser(userId);	
 	}
+	@GET
+	@Path("/chat/{idChat}/messages")
+	public List<Chat> getMessByCHat(@PathParam(value="id")Integer idChat){
+		return chatDao.getChatByUser(idChat);	
+	}
+	
 	
 	@DELETE
 	@Path("/chat/{idChat}")

@@ -14,7 +14,9 @@ public interface IMessage {
 	public int delMessageById(Integer id);
 	public Message updateMessage(Message message);
 	
+	
 	public List<Message> getAllMessage();
 	public List<Message> getMessageByString(String mc);
+	public List<Message> getMessageByChatId(Integer idChat);
 
 }

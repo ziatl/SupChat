@@ -123,5 +123,12 @@ public class MessageDaoImpl implements IMessage {
 		List<Message> ll = q.getResultList();
 		return ll;	
 	}
+	@Override
+	public List<Message> getMessageByChatId(Integer idChat) {
+		Query q = em.createNamedQuery("select m from Message m where m.chat.id =:X");
+		q.setParameter("X", idChat);
+		List<Message> ll = q.getResultList();
+		return ll;	
+	}
 
 }

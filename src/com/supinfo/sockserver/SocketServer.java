@@ -13,18 +13,37 @@ import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.supinfo.dao.ChatDaoImpl;
+import com.supinfo.dao.CrudDaoImpl;
+import com.supinfo.dao.MessageDaoImpl;
+import com.supinfo.entities.Message;
+
 @ServerEndpoint("/server/{id}")
 public class SocketServer {
 	
     private static List<Session> allSessions = new ArrayList<Session>();
     private static Map<Session, Integer> allMap = new HashMap<Session, Integer>();
 	
+    public CrudDaoImpl crudDao;
+	public MessageDaoImpl messageDao;
+	public ChatDaoImpl chatDao;
+	
+	public SocketServer() {
+		// TODO Auto-generated constructor stub
+		crudDao = new CrudDaoImpl();
+		messageDao = new MessageDaoImpl();
+		chatDao = new ChatDaoImpl();
+	}
+	
 	@OnOpen
 	public void onOpen(Session session,@PathParam(value="id") String id) throws IOException{
 		 System.out.println(session.getId() + " a ouvert une connexion"); 
 		 allSessions.add(session);
-			allMap.put(session, Integer.parseInt(id));
+		 allMap.put(session, Integer.parseInt(id));
 	        try {
+	        	ObjectMapper mapper = new ObjectMapper();
+	        	
 	            session.getBasicRemote().sendText("Connexion Etablie");
 	        } catch (IOException ex) {
 	            ex.printStackTrace();
