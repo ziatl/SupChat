@@ -95,6 +95,16 @@ public class ChatService {
 		u.setDateCreate(new Date());
 		u.setDateUpdate(new Date());
 		crudDao.addUser(u);
+		Parametre p = new Parametre();
+		p.setPush(true);
+		p.setAudio(false);
+		p.setVideo(false);
+		p.setSearch(false);
+		p.setSon(false);
+		crudDao = new CrudDaoImpl();
+		User user = crudDao.findUserById(u.getId());
+		p.setUser(user);
+		crudDao.addParametre(p);
 		return u; 
 	}
 	
@@ -220,6 +230,7 @@ public class ChatService {
 	@POST
 	@Path("/parametre")
 	public Parametre addParametre(Parametre p) {
+		
 		return crudDao.addParametre(p);
 	}
 	
