@@ -207,31 +207,31 @@ public class ChatService {
 	
 	//Parametre
 	@POST
-	@Path("/Parametre")
+	@Path("/parametre")
 	public Parametre addParametre(Parametre p) {
 		return crudDao.addParametre(p);
 	}
 	
 	@PUT
-	@Path("/Parametre")
+	@Path("/parametre")
 	public Parametre updateParametre(Parametre p) {
 		return crudDao.updateParametre(p);
 	}
 	
 	@DELETE
-	@Path("/Parametre/{idParametre}")
+	@Path("/parametre/{idParametre}")
 	public Integer delParametreById (@PathParam("idParametre")Integer idParametre){
 		return crudDao.delParametreId(idParametre);
 	}
 	
 	@GET
-	@Path("/Parametre")
+	@Path("/parametre")
 	public List<Parametre> getAllParametre() {
 		return crudDao.getAllParametre();
 	}
 	
 	@GET
-	@Path("/Parmetre/{idUser}")
+	@Path("/parmetre/{idUser}")
 	public List<Parametre> getParametreByUserid (@PathParam(value="idUser")Integer idUser){
 		return crudDao.getParametreByUser(idUser);
 	}

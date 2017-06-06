@@ -100,9 +100,10 @@ public class ChatDaoImpl implements IChat {
 	@Override
 	public List<UserHasChat> findUserByUserId(Integer id) {
 		Query u =  em.createQuery(""
-				+ "SELECT h FROM UserHasChat h WHERE h.chat.id IN "
+				+ "SELECT h FROM UserHasChat h WHERE h.user.id!=:X AND h.chat.id IN "
 				+ "(SELECT c.id FROM Chat c WHERE c.id IN "
-				+ "(SELECT d.chat.id FROM UserHasChat d WHERE d.user.id =:X) and c.type = 0) and h.status !=5 and h.user.id!=:X");
+				+ "(SELECT d.chat.id FROM UserHasChat d WHERE d.user.id =:X) and c.type = 0) and h.status =1");
+		//Soit on fait un  OR ici pour Ajouter des conditions selon le statu, pending, Ban , Accepted
 		u.setParameter("X", id);
 		return u.getResultList();	
 	}
