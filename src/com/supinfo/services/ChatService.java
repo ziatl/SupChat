@@ -105,6 +105,16 @@ public class ChatService {
 		crudDao.updateUser(u);
 		return u; 
 	}
+	@PUT
+	@Path("/user/{id}/{status}")
+	public User updateUser(@PathParam(value="status")String statut,@PathParam(value="id")Integer id,ContainerRequestContext requestContext){
+
+		User user = crudDao.findUserById(id);
+		user.setStatut(statut);
+		user.setDateUpdate(new Date());
+		crudDao.updateUser(user);
+		return user; 
+	}
 	
 	
 	@GET
