@@ -235,9 +235,13 @@ public class ChatService {
 	@Path("/user/invit")
 	public List<UserHasChat> getInvitation(ContainerRequestContext containerRequestContext){
 		int idUser = Integer.parseInt(containerRequestContext.getHeaderString("id"));
-		
-		return chatDao.getInvitation(idUser);
-		
+		return chatDao.getInvitation(idUser);		
+	}
+	
+	@PUT
+	@Path("/user/invit/{idUHC}/{stutus}")
+	public UserHasChat responseInvitation(@PathParam(value="idUHC") Integer idUHC, @PathParam(value="idUHC") Integer status){	
+		return chatDao.responseInvitation(idUHC, status);
 	}
 	
 	//Parametre

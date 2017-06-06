@@ -294,7 +294,7 @@ public class ChatDaoImpl implements IChat {
 		}	
 	}
 	
-	
+	//Invitation
 	@Override
 	public List<UserHasChat> getInvitation(Integer idUser) {
 		Query u =  em.createQuery("SELECT h FROM UserHasChat h WHERE h.user.id=:X AND h.status = 2");
@@ -302,4 +302,13 @@ public class ChatDaoImpl implements IChat {
 		u.setParameter("X", idUser);
 		return u.getResultList();
 	}
+	
+	@Override
+	public UserHasChat responseInvitation(Integer idUHC,Integer status) {
+		UserHasChat uhc = crudDao.findUHC(idUHC);
+		uhc.setStatus(status);
+		crudDao.updateUHC(uhc);
+		return uhc;
+	}
+	
 }
