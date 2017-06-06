@@ -40,7 +40,7 @@ public interface ICrud {
 	public Parametre updateParametre(Parametre p);
 	
 	public List<Parametre> getAllParametre();
-	public List<Parametre> getParametreByUser(Integer idUser);	
+	public Parametre getParametreByUser(Integer idUser);	
 	
 	//Crud Device
 	public Device addDevice(Device d);

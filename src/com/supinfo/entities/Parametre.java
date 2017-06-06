@@ -11,6 +11,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 @Table(name="parametre")
 public class Parametre implements Serializable {
@@ -22,7 +24,7 @@ public class Parametre implements Serializable {
 		private boolean video;
 		private boolean son;
 		private boolean search;
-		
+		@JsonIgnore
 		@OneToOne
 		@JoinColumn(name="idUser")
 		private User user;

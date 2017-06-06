@@ -384,10 +384,10 @@ public class CrudDaoImpl implements ICrud {
 		return lp;
 	};
 	@Override
-	public List<Parametre> getParametreByUser(Integer idUser) {
-		Query q = em.createQuery("SELECT p FROM Parametre p WHERE p.user_id=:X");
+	public Parametre getParametreByUser(Integer idUser) {
+		Query q = em.createQuery("SELECT p FROM Parametre p WHERE p.user.id=:X");
 		q.setParameter("X",idUser);
-		List<Parametre> lp = q.getResultList();
+		Parametre lp = (Parametre) q.getSingleResult();
 		return lp;
 	};
 	

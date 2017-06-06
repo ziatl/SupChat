@@ -246,17 +246,26 @@ public class ChatService {
 		return crudDao.delParametreId(idParametre);
 	}
 	
-	@GET
-	@Path("/parametre")
-	public List<Parametre> getAllParametre() {
-		return crudDao.getAllParametre();
-	}
 	
 	@GET
-	@Path("/parmetre/{idUser}")
-	public List<Parametre> getParametreByUserid (@PathParam(value="idUser")Integer idUser){
+	@Path("/parametre/{idUser}")
+	public Parametre getParametreByUserid (@PathParam(value="idUser")Integer idUser){
+		
 		return crudDao.getParametreByUser(idUser);
 	}
+	
+	@PUT
+	@Path("paramater/{idUser}/{type}/{valeur}")
+	public Parametre updateParamaterVideo(@PathParam(value="idUser")Integer idUser,
+										  @PathParam(value="type")String type,
+										  @PathParam(value="idUser")Boolean valeur){
+		Parametre parametre = new Parametre();
+		parametre = crudDao.getParametreByUser(idUser);
+		
+		return parametre;
+	}
+	
+	
 	
 	//Device
 	
