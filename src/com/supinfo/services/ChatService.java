@@ -287,10 +287,29 @@ public class ChatService {
 	@GET
 	@Path("/parametre/{idUser}")
 	public Parametre getParametreByUserid (@PathParam(value="idUser")Integer idUser){
-		
 		return crudDao.getParametreByUser(idUser);
 	}
-
+	/**@POST
+	@Path("/groupe/{idUser}")
+	public List<UserHasChat> addContactGroupe (@PathParam(value="idUser1") Integer idUser1) {
+		return chatDao.addContactGroupe(idUser1, users);
+	}*/
+	@GET
+	@Path("/user/groupe/{idUser}")
+	public List<Chat> getGroupe (@PathParam(value="idUser")Integer idUser) {
+		return chatDao.getGroupe(idUser);
+	}
+	@GET
+	@Path("/user/notgroupe/{idUser}")
+	public List<Chat> getNotGroupe (@PathParam(value="idUser")Integer idUser) {
+		return chatDao.getNoGroupe(idUser);
+	}
+	
+	@POST
+	@Path("/groupe/{idUser1}")
+	public UserHasChat createGroupe (@PathParam(value="idUser1") Integer idUser1) {
+		return chatDao.createGroupe(idUser1);
+	}
 	//Device
 	
 	

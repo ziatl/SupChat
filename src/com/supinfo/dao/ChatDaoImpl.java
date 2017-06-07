@@ -220,6 +220,79 @@ public class ChatDaoImpl implements IChat {
 		}	
 	}
 	@Override
+	public List<Chat> getGroupe(Integer idUser) {
+		Query q = em.createQuery("SELECT c FROM Chat c WHERE c.type = 1 AND c.id IN (SELECT h.chat.id FROM UserHasChat h WHERE h.user.id =:X)");
+		q.setParameter("X", idUser);
+		return	q.getResultList();
+	};
+	
+	@Override
+	public List<Chat> getNoGroupe(Integer idUser) {
+		Query q = em.createQuery("SELECT c FROM Chat c WHERE c.type = 1 AND c.id NOT IN (SELECT h.chat.id FROM UserHasChat h WHERE h.user.id =:X)");
+		q.setParameter("X", idUser);
+		return	q.getResultList();
+	};
+	@Override
+	public UserHasChat createGroupe(Integer idUser1) {
+		User user = crudDao.findUserById(idUser1);
+		Chat chat = new Chat();
+		UserHasChat uhc = new UserHasChat();
+		Chat c = new Chat();
+		EntityTransaction ct = em.getTransaction();
+		try {
+			ct.begin();
+			em.persist(chat);
+			uhc.setChat(chat);
+			uhc.setUser(user);
+			uhc.setAdmin(true);
+			uhc.setStatus(4);
+			uhc.setLibelle(user.getPrenom() + " " + user.getNom());
+			em.persist(uhc);
+			
+			ct.commit();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+		return uhc;
+	}
+	
+	@Override
+	public List<UserHasChat> addContactGroupe(Integer idUser1, List<User> users) {
+		User user1 = crudDao.findUserById(idUser1);
+		UserHasChat uhc1 = new UserHasChat();
+		UserHasChat uhc2 = new UserHasChat();
+		List<UserHasChat> user2 = new ArrayList<>();
+		Chat chat = new Chat();
+		EntityTransaction et = em.getTransaction();
+		try {
+			et.begin();
+			em.persist(chat);			
+			uhc1.setChat(chat);
+			uhc1.setUser(user1);
+			uhc1.setAdmin(true);
+			uhc1.setStatus(4);
+			User u1 = crudDao.findUserById(idUser1);
+			uhc1.setLibelle(u1.getPrenom() + " "+ u1.getNom());
+			em.persist(uhc1);
+						
+			for (User user : users) {
+				uhc2.setChat(chat);
+				uhc2.setAdmin(false);
+				uhc2.setStatus(2);
+				User u = crudDao.findUserById(user.getId());
+				uhc2.setLibelle(u.getPrenom() + " "+ u.getNom());
+				em.persist(uhc2);
+				user2.add(uhc2);
+			}
+			et.commit();
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return null;
+		}	
+		return user2;
+	  }
+	@Override
 	public User addContact(Integer idUser1, Integer idUser2,String libelle) {
 		List<UserHasChat> liste1 = new ArrayList<UserHasChat>();
 		List<UserHasChat> liste2 = new ArrayList<UserHasChat>();

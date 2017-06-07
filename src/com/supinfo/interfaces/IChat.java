@@ -22,7 +22,10 @@ public interface IChat {
 	public List<Chat> getChatPrivate(Integer idUser);
 	public List<UserHasChat> getInvitation(Integer idUser);
 	public UserHasChat responseInvitation(Integer idInvitation,Integer status);
-	
+	public UserHasChat createGroupe(Integer idUser1);
+	public List<Chat> getGroupe(Integer idUser);
+	public List<Chat> getNoGroupe(Integer idUser);
+	public List<UserHasChat> addContactGroupe(Integer idUser1, List<User> users);
 	public User addContact(Integer idUser1,Integer idUser2,String libelle);
 	public int updateUHCStatus(Integer id1,Integer id2,Integer status);
 	
