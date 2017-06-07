@@ -7,6 +7,7 @@ import com.supinfo.entities.Chat;
 import com.supinfo.entities.Device;
 import com.supinfo.entities.Message;
 import com.supinfo.entities.Parametre;
+import com.supinfo.entities.ResetPassword;
 import com.supinfo.entities.User;
 import com.supinfo.entities.UserHasChat;
 
@@ -58,6 +59,10 @@ public interface ICrud {
 	public int delUHC(Integer id);
 	public UserHasChat updateUHC (UserHasChat uhc);
 	public List<UserHasChat> getAllUHC();
+	
+	//RestPassword
+	public ResetPassword addReset(Integer idUser);
+
 	
 	
 	

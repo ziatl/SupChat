@@ -12,6 +12,7 @@ import com.supinfo.database.PersistenceManager;
 import com.supinfo.entities.Chat;
 import com.supinfo.entities.Device;
 import com.supinfo.entities.Parametre;
+import com.supinfo.entities.ResetPassword;
 import com.supinfo.entities.User;
 import com.supinfo.entities.UserHasChat;
 import com.supinfo.interfaces.ICrud;
@@ -472,4 +473,11 @@ public class CrudDaoImpl implements ICrud {
 		List<Device>ld=q.getResultList();
 		return ld;
 	};
+	
+	//RestePasword
+	@Override
+	public ResetPassword addReset(Integer idUser) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
