@@ -223,6 +223,11 @@ public class ChatService {
 		uhc.setChat(chatDao.findChatById(idChat));
 		return chatDao.addUserHasChat(uhc);		 
 	}
+	@PUT
+	@Path("/userHasChat/{idUser}/{libelle}")
+	public UserHasChat updateUHCLibelle (@PathParam(value="idUser") Integer idUser, @PathParam(value="libelle") String libelle) {
+			return chatDao.updateUHCLibelle(idUser, libelle);
+	}
 	@DELETE
 	@Path("/userHasChat")
 	public UserHasChat delUHC (UserHasChat uhc) {
@@ -291,11 +296,6 @@ public class ChatService {
 	public Parametre getParametreByUserid (@PathParam(value="idUser")Integer idUser){
 		return crudDao.getParametreByUser(idUser);
 	}
-	/**@POST
-	@Path("/groupe/{idUser}")
-	public List<UserHasChat> addContactGroupe (@PathParam(value="idUser1") Integer idUser1) {
-		return chatDao.addContactGroupe(idUser1, users);
-	}*/
 	@GET
 	@Path("/user/groupe/{idUser}")
 	public List<Chat> getGroupe (@PathParam(value="idUser")Integer idUser) {
@@ -308,9 +308,9 @@ public class ChatService {
 	}
 	
 	@POST
-	@Path("/groupe/{idUser1}")
-	public UserHasChat createGroupe (@PathParam(value="idUser1") Integer idUser1) {
-		return chatDao.createGroupe(idUser1);
+	@Path("/groupe")
+	public User createGroupe (@QueryParam(value="id1")Integer idUser1,@QueryParam("libelle") String libelle) {
+		return chatDao.createGroupe(idUser1, libelle);
 	}
 	//Device
 	
