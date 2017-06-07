@@ -73,7 +73,7 @@ public class ChatDaoImpl implements IChat {
 	}
 	@Override
 	public List<ChatJson> getChatByUser(Integer id) {
-		Query q = em.createQuery("SELECT c From Chat c where c.statut = 1 and c.id IN (SELECT u.chat.id FROM UserHasChat u WHERE u.user.id=:X)");
+		Query q = em.createQuery("SELECT c From Chat c where c.statut = 1 and c.id IN (SELECT u.chat.id FROM UserHasChat u WHERE u.user.id=:X and u.status = 1)");
 		q.setParameter("X", id);
 		try {
 			List<Chat> lchat = q.getResultList();

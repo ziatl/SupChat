@@ -223,6 +223,18 @@ public class ChatService {
 		uhc.setChat(chatDao.findChatById(idChat));
 		return chatDao.addUserHasChat(uhc);		 
 	}
+	//JoinGroup
+		@POST
+		@Path("/joinGroup/{idUser}/{idChat}")
+		public UserHasChat joinGroup (@PathParam(value="idUser")Integer idUser,@PathParam(value="idChat")Integer idChat,UserHasChat uhc) {
+			System.out.println("IdUser "+idUser);
+			System.out.println("IdChat"+idChat);
+			System.out.println(uhc.getId());
+			uhc.setUser(crudDao.findUserById(idUser));
+			uhc.setChat(chatDao.findChatById(idChat));
+			uhc.setStatus(4);
+			return chatDao.addUserHasChat(uhc);		 
+		}
 	@DELETE
 	@Path("/userHasChat")
 	public UserHasChat delUHC (UserHasChat uhc) {
