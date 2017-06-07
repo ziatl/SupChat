@@ -339,6 +339,16 @@ public class ChatDaoImpl implements IChat {
 			
 			uhc.setStatus(status);
 			crudDao.updateUHC(uhc);
+			
+			int idChat = uhc.getChat().getId();
+			Query q = em.createQuery("select h from UserHasChat h where h.chat.id =:X and h.user.id =:Y");
+			q.setParameter("X", idChat);
+			q.setParameter("Y", id1);
+			UserHasChat uhc2 = (UserHasChat) q.getSingleResult();
+			uhc2.setStatus(status);
+			crudDao = new CrudDaoImpl();
+			crudDao.updateUHC(uhc2);
+			
 			return uhc.getId();
 		} catch (Exception e) {
 			System.out.println(e.getMessage());
