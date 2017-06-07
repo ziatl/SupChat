@@ -102,7 +102,7 @@ public class ChatDaoImpl implements IChat {
 		Query u =  em.createQuery(""
 				+ "SELECT h FROM UserHasChat h WHERE h.user.id!=:X AND h.chat.id IN "
 				+ "(SELECT c.id FROM Chat c WHERE c.id IN "
-				+ "(SELECT d.chat.id FROM UserHasChat d WHERE d.user.id =:X) and c.type = 0)  and h.status != 5");
+				+ "(SELECT d.chat.id FROM UserHasChat d WHERE d.user.id =:X) and c.type = 0)  and h.status = 1");
 		//Soit on fait un  OR ici pour Ajouter des conditions selon le statu, pending, Ban , Accepted
 		u.setParameter("X", id);
 		return u.getResultList();	
@@ -245,7 +245,7 @@ public class ChatDaoImpl implements IChat {
 			uhc1.setChat(chat);
 			uhc1.setUser(user1);
 			uhc1.setAdmin(true);
-			uhc1.setStatus(1);
+			uhc1.setStatus(4);
 			User u1 = crudDao.findUserById(idUser2);
 			uhc1.setLibelle(u1.getPrenom() + " "+ u1.getNom());
 			em.persist(uhc1);
@@ -312,7 +312,7 @@ public class ChatDaoImpl implements IChat {
 			UserHasChat uhc = (UserHasChat) u2.getSingleResult();
 			liste2.add(uhc);
 		}
-		System.out.println("Taille de liste = "+liste2.get(0).getUser().getId());
+		
 		List<UserHasChat> result = new ArrayList<UserHasChat>();
 		for (UserHasChat uhc1 : liste1) {
 			for (UserHasChat uhc2 : liste2) {
@@ -330,8 +330,25 @@ public class ChatDaoImpl implements IChat {
 	@Override
 	public UserHasChat responseInvitation(Integer idUHC,Integer status) {
 		UserHasChat uhc = crudDao.findUHC(idUHC);
-		uhc.setStatus(status);
-		crudDao.updateUHC(uhc);
+		System.out.println(status + " Status");
+		if (status == 1) {
+			uhc.setStatus(status);
+			crudDao.updateUHC(uhc);
+			int idChat = uhc.getChat().getId();
+			Query q = em.createQuery("select h from UserHasChat h where h.chat.id =:X and h.id !=:Y");
+			q.setParameter("X", idChat);
+			q.setParameter("Y", idUHC);
+			UserHasChat uhc2 = (UserHasChat) q.getSingleResult();
+			uhc2.setStatus(status);
+			em = PersistenceManager.getEntityManager();
+			crudDao = new CrudDaoImpl();
+			crudDao.updateUHC(uhc2);
+		}
+		if (status == 3) {
+			uhc.setStatus(status);
+			crudDao.updateUHC(uhc);
+		}
+		
 		return uhc;
 	}
 	

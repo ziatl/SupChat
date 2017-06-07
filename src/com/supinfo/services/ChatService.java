@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.EntityManager;
 import javax.ws.rs.DELETE;
 import javax.ws.rs.FormParam;
 import javax.ws.rs.GET;
@@ -23,6 +24,7 @@ import com.supinfo.dao.ChatDaoImpl;
 import com.supinfo.dao.CrudDaoImpl;
 import com.supinfo.dao.MessageDaoImpl;
 import com.supinfo.dao.SendMail;
+import com.supinfo.database.PersistenceManager;
 import com.supinfo.entities.Chat;
 import com.supinfo.entities.Parametre;
 import com.supinfo.entities.User;
@@ -35,11 +37,23 @@ public class ChatService {
 	public CrudDaoImpl crudDao;
 	public MessageDaoImpl messageDao;
 	public ChatDaoImpl chatDao;
+	private EntityManager em;
+	
+	public EntityManager getEm() {
+		return em;
+		
+	}
+
+	public void setEm(EntityManager em) {
+		this.em = em;
+	}
+
 	
 	public ChatService() {
 		crudDao = new CrudDaoImpl();
 		messageDao = new MessageDaoImpl();
 		chatDao = new ChatDaoImpl();
+		em = PersistenceManager.getEntityManager();
 	}
 	
 	@GET
@@ -96,6 +110,7 @@ public class ChatService {
 	public User addUser(User u){
 		u.setDateCreate(new Date());
 		u.setDateUpdate(new Date());
+		u.setStatut("Hors Ligne");
 		crudDao.addUser(u);
 		Parametre p = new Parametre();
 		p.setPush(true);
@@ -241,8 +256,8 @@ public class ChatService {
 	}
 	
 	@PUT
-	@Path("/user/invit/{idUHC}/{stutus}")
-	public UserHasChat responseInvitation(@PathParam(value="idUHC") Integer idUHC, @PathParam(value="idUHC") Integer status){	
+	@Path("/user/invit/{idUHC}/{status}")
+	public UserHasChat responseInvitation(@PathParam(value="idUHC") Integer idUHC, @PathParam(value="status") Integer status){	
 		return chatDao.responseInvitation(idUHC, status);
 	}
 	

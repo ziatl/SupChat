@@ -148,6 +148,7 @@ public class CrudDaoImpl implements ICrud {
 			System.out.println(date);
 			user.setTokenExpire(date);
 			CrudDaoImpl cc = new CrudDaoImpl();
+			user.setStatut("En Ligne");
 			cc.updateUser(user);
 			return user;
 		} catch (Exception e) {
