@@ -26,6 +26,7 @@ import com.supinfo.dao.MessageDaoImpl;
 import com.supinfo.dao.SendMail;
 import com.supinfo.database.PersistenceManager;
 import com.supinfo.entities.Chat;
+import com.supinfo.entities.Message;
 import com.supinfo.entities.Parametre;
 import com.supinfo.entities.User;
 import com.supinfo.entities.UserHasChat;
@@ -183,8 +184,8 @@ public class ChatService {
 	}
 	@GET
 	@Path("/chat/{idChat}/messages")
-	public List<Chat> getMessByCHat(@PathParam(value="id")Integer idChat){
-		return chatDao.getChatByUser(idChat);	
+	public List<Message> getMessByCHat(@PathParam(value="idChat")Integer idChat){
+		return chatDao.getMessByCHat(idChat);	
 	}
 	
 	
@@ -298,8 +299,9 @@ public class ChatService {
 	@Path("/test")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response test(){
-		SendMail.SendEmail("zizoa1er@gmail.com");
+//		SendMail.SendEmail("zizoa1er@gmail.com");
 		ObjectMapper mapper = new ObjectMapper();
+	
 		User user = crudDao.findUserById(3);
 		Response response = Response.status(Status.OK).entity(user).build();
 		return response;

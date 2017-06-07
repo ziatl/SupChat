@@ -1,5 +1,6 @@
 package com.supinfo.dao;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -29,6 +30,8 @@ public class MessageDaoImpl implements IMessage {
 		mes.setType(1);
 		mes.setUser(crudDao.findUserById(idUser));
 		mes.setChat(crudDao.findChatById(idChat));
+		mes.setDateCreate(new Date());
+		mes.setDateUpdate(new Date());
 		
 		EntityTransaction et = em.getTransaction();
 		try {

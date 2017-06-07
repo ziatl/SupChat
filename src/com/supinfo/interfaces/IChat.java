@@ -3,6 +3,7 @@ package com.supinfo.interfaces;
 import java.util.List;
 
 import com.supinfo.entities.Chat;
+import com.supinfo.entities.Message;
 import com.supinfo.entities.User;
 import com.supinfo.entities.UserHasChat;
 
@@ -25,6 +26,8 @@ public interface IChat {
 	
 	public User addContact(Integer idUser1,Integer idUser2,String libelle);
 	public int updateUHCStatus(Integer id1,Integer id2,Integer status);
+	
+	public List<Message> getMessByCHat(Integer idCHat);
 	
 	
 

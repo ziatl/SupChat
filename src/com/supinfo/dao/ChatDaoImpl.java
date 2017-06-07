@@ -10,6 +10,7 @@ import javax.persistence.Query;
 
 import com.supinfo.database.PersistenceManager;
 import com.supinfo.entities.Chat;
+import com.supinfo.entities.Message;
 import com.supinfo.entities.User;
 import com.supinfo.entities.UserHasChat;
 import com.supinfo.interfaces.IChat;
@@ -87,6 +88,12 @@ public class ChatDaoImpl implements IChat {
 	
 	}
 
+	@Override
+	public List<Message> getMessByCHat(Integer idCHat) {
+		Query q = em.createQuery("SELECT m From Message m where m.chat.id=:X");
+		q.setParameter("X", idCHat);
+		return q.getResultList();
+	}
 	@Override
 	public Chat findChatById(Integer id) {
 		Chat u = new Chat();
