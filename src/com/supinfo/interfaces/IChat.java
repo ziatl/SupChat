@@ -6,10 +6,11 @@ import com.supinfo.entities.Chat;
 import com.supinfo.entities.Message;
 import com.supinfo.entities.User;
 import com.supinfo.entities.UserHasChat;
+import com.supinfo.providers.ChatJson;
 
 public interface IChat {
 	public Chat addChat(Chat chat);
-	public List<Chat> getChatByUser(Integer id);
+	public List<ChatJson> getChatByUser(Integer id);
 	public UserHasChat addUserHasChat(UserHasChat uhc);
 	public Integer delUserHasCHat(Integer idUser,Integer idChat);
 	

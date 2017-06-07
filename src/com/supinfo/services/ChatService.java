@@ -30,6 +30,7 @@ import com.supinfo.entities.Message;
 import com.supinfo.entities.Parametre;
 import com.supinfo.entities.User;
 import com.supinfo.entities.UserHasChat;
+import com.supinfo.providers.ChatJson;
 
 
 @Path("/rest")
@@ -179,7 +180,7 @@ public class ChatService {
 	
 	@GET
 	@Path("/chat/{id}")
-	public List<Chat> getChatByUser(@PathParam(value="id")Integer userId){
+	public List<ChatJson> getChatByUser(@PathParam(value="id")Integer userId){
 		return chatDao.getChatByUser(userId);	
 	}
 	@GET

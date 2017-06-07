@@ -14,6 +14,7 @@ import com.supinfo.entities.Message;
 import com.supinfo.entities.User;
 import com.supinfo.entities.UserHasChat;
 import com.supinfo.interfaces.IChat;
+import com.supinfo.providers.ChatJson;
 
 public class ChatDaoImpl implements IChat {
 	private EntityManager em;
@@ -71,19 +72,33 @@ public class ChatDaoImpl implements IChat {
 		}	
 	}
 	@Override
-	public List<Chat> getChatByUser(Integer id) {
+	public List<ChatJson> getChatByUser(Integer id) {
 		Query q = em.createQuery("SELECT c From Chat c where c.statut = 1 and c.id IN (SELECT u.chat.id FROM UserHasChat u WHERE u.user.id=:X)");
 		q.setParameter("X", id);
 		try {
 			List<Chat> lchat = q.getResultList();
 			if (lchat.size() > 0){
-				return lchat;
+				
+				List<ChatJson> listeFinale = new ArrayList<ChatJson>();
+				for (Chat lc : lchat) {
+					ChatJson cj = new ChatJson();
+					cj.setId(lc.getId());
+					cj.setCreator(lc.getCreator());
+					cj.setDateCreate(lc.getDateCreate());
+					cj.setDateUpdate(lc.getDateUpdate());
+					cj.setDetail(lc.getDetail());
+					cj.setType(lc.getType());
+					cj.setUserHasChats(lc.getUserHasChats());
+					cj.setCreator(lc.getCreator());
+					listeFinale.add(cj);
+				}
+				return listeFinale;
 			}else{
-				return new ArrayList<Chat>();
+				return new ArrayList<ChatJson>();
 			}
 		} catch (Exception e) {
 			// TODO: handle exception
-			return new ArrayList<Chat>();
+			return new ArrayList<ChatJson>();
 		}	
 	
 	}
