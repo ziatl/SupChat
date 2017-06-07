@@ -2,6 +2,7 @@ package com.supinfo.sockserver;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -12,6 +13,8 @@ import javax.websocket.OnOpen;
 import javax.websocket.Session;
 import javax.websocket.server.PathParam;
 import javax.websocket.server.ServerEndpoint;
+
+import org.json.JSONObject;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.supinfo.dao.ChatDaoImpl;
@@ -42,7 +45,6 @@ public class SocketServer {
 		 allSessions.add(session);
 		 allMap.put(session, Integer.parseInt(id));
 	        try {
-	        	ObjectMapper mapper = new ObjectMapper();
 	        	
 	            session.getBasicRemote().sendText("Connexion Etablie");
 	        } catch (IOException ex) {
@@ -58,8 +60,13 @@ public class SocketServer {
 				Session ss = m.getKey();
 				if (ss.isOpen()) {
 					if (ss.getId() != session.getId()) {
-						ss.getBasicRemote().sendText(message);
-						System.out.println(message);
+						System.out.println("******* "+message);
+						ObjectMapper mapper = new ObjectMapper();
+						MessageSocketObject mssko = mapper.readValue(message, MessageSocketObject.class);
+						messageDao = new MessageDaoImpl();
+						messageDao.addMessageText(mssko.getContent(), mssko.getIdUser(), mssko.getId());
+						ss.getBasicRemote().sendText(mapper.writeValueAsString(mssko));
+						System.out.println(mapper.writeValueAsString(mssko));
 					}
 				}
 			}		

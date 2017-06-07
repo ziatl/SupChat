@@ -3,12 +3,14 @@ package com.supinfo.interfaces;
 import java.util.List;
 
 import com.supinfo.entities.Chat;
+import com.supinfo.entities.Message;
 import com.supinfo.entities.User;
 import com.supinfo.entities.UserHasChat;
+import com.supinfo.providers.ChatJson;
 
 public interface IChat {
 	public Chat addChat(Chat chat);
-	public List<Chat> getChatByUser(Integer id);
+	public List<ChatJson> getChatByUser(Integer id);
 	public UserHasChat addUserHasChat(UserHasChat uhc);
 	public Integer delUserHasCHat(Integer idUser,Integer idChat);
 	
@@ -28,6 +30,8 @@ public interface IChat {
 	public List<UserHasChat> addContactGroupe(Integer idUser1, List<User> users);
 	public User addContact(Integer idUser1,Integer idUser2,String libelle);
 	public int updateUHCStatus(Integer id1,Integer id2,Integer status);
+	
+	public List<Message> getMessByCHat(Integer idCHat);
 	
 	
 
