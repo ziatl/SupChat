@@ -221,12 +221,62 @@ public class ChatDaoImpl implements IChat {
 	}
 	@Override
 	public User addContact(Integer idUser1, Integer idUser2,String libelle) {
-		System.out.println("Bon arrivee"+idUser1);
-		System.out.println("Bon arrivee"+idUser2);
+		List<UserHasChat> liste1 = new ArrayList<UserHasChat>();
+		List<UserHasChat> liste2 = new ArrayList<UserHasChat>();
+		UserHasChat uhc1 = new UserHasChat();
+		UserHasChat uhc2 = new UserHasChat();
+		Integer idH1 = 0;
+		Integer idH2 = 0;
+		Chat chat = new Chat();
+		
+		//Verifiation si uhc entre les deux contacts
+		Query q = em.createQuery("Select h FROM UserHasChat h where h.user.id =:X and h.chat.type = 0");
+		q.setParameter("X", idUser1);
+		liste1 = q.getResultList();
+		
+		Query q2 = em.createQuery("Select h FROM UserHasChat h where h.user.id =:X and h.chat.type = 0");
+		q2.setParameter("X", idUser2);
+		liste2 = q2.getResultList();
+		
+		Boolean trouver = false;
+		for (UserHasChat h1 : liste1) {
+			for (UserHasChat h2 : liste2) {
+				if (h1.getChat().getId() == h2.getChat().getId()) {
+					trouver = true;
+					idH1 = h1.getId();
+					idH2 = h2.getId();
+					System.out.println(idH1+" "+idH2);
+					break;
+				}
+			}
+		}
+		
+		if (trouver){
+			System.out.println("existe deja");
+			User user1 = crudDao.findUserById(idUser1);
+			User user2 = crudDao.findUserById(idUser2);
+			uhc1 = crudDao.findUHC(idH1);
+			uhc2 = crudDao.findUHC(idH2);
+			chat = crudDao.findChatById(uhc1.getChat().getId());
+			
+			uhc1.setStatus(4);
+			uhc2.setStatus(2);
+			System.out.println("****");
+			System.out.println(uhc1.getId());
+			System.out.println(uhc2.getId());
+			System.out.println("*****");
+			crudDao = new CrudDaoImpl();
+			crudDao.updateUHC(uhc1);
+			crudDao = new CrudDaoImpl();
+			crudDao.updateUHC(uhc2);
+			return user2;
+		}else{		
+		//Action a realiser si pas de contact entre les deux
+		System.out.println("existe pas entre les deux");
 		User user1 = crudDao.findUserById(idUser1);
 		User user2 = crudDao.findUserById(idUser2);
 		//crreation du chat entre les 2 user et automatique UserHasChat pour le premier User
-		Chat chat = new Chat();
+		
 		chat.setType(0);
 		chat.setStatut(0);
 		chat.setCreator(idUser1);
@@ -241,16 +291,16 @@ public class ChatDaoImpl implements IChat {
 			em.persist(chat);
 			
 			
-			UserHasChat uhc1 = new UserHasChat();
+			
 			uhc1.setChat(chat);
 			uhc1.setUser(user1);
 			uhc1.setAdmin(true);
 			uhc1.setStatus(4);
-			User u1 = crudDao.findUserById(idUser2);
+			User u1 = crudDao.findUserById(idUser1);
 			uhc1.setLibelle(u1.getPrenom() + " "+ u1.getNom());
 			em.persist(uhc1);
 			
-			UserHasChat uhc2 = new UserHasChat();
+			
 			uhc2.setChat(chat);
 			uhc2.setUser(user2);
 			uhc2.setAdmin(false);
@@ -266,6 +316,8 @@ public class ChatDaoImpl implements IChat {
 			return null;
 		}	
 		return user2;
+	  }
+		
 	}
 	@Override
 	public int updateUHCStatus(Integer id1,Integer id2,Integer status) {
