@@ -466,8 +466,12 @@ public class ChatDaoImpl implements IChat {
 			Query u2 =  em.createQuery("SELECT h FROM UserHasChat h WHERE h.user.id !=:X AND h.chat.id =:Y");
 			u2.setParameter("X", idUser);
 			u2.setParameter("Y", idChat);
-			UserHasChat uhc = (UserHasChat) u2.getSingleResult();
-			liste2.add(uhc);
+			try {
+				UserHasChat uhc = (UserHasChat) u2.getSingleResult();
+				liste2.add(uhc);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
 		}
 		
 		List<UserHasChat> result = new ArrayList<UserHasChat>();
@@ -481,6 +485,12 @@ public class ChatDaoImpl implements IChat {
 				}
 			}
 		}
+		Query req = em.createQuery("Select h From UserHasChat h where h.chat.id IN "
+				+ "(Select h.chat.id FROM UserHasChat h where h.user.id=:X and h.admin=1 and chat.type = 1) and h.user.id !=:X and h.status = 4");
+		req.setParameter("X", idUser);
+		List<UserHasChat> adminList = req.getResultList();
+		result.addAll(adminList);
+
 		return result;
 	}
 	
