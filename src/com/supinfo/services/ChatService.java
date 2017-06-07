@@ -18,9 +18,11 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.sun.xml.internal.ws.resources.SenderMessages;
 import com.supinfo.dao.ChatDaoImpl;
 import com.supinfo.dao.CrudDaoImpl;
 import com.supinfo.dao.MessageDaoImpl;
+import com.supinfo.dao.SendMail;
 import com.supinfo.entities.Chat;
 import com.supinfo.entities.Parametre;
 import com.supinfo.entities.User;
@@ -281,6 +283,7 @@ public class ChatService {
 	@Path("/test")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response test(){
+		SendMail.SendEmail("zizoa1er@gmail.com");
 		ObjectMapper mapper = new ObjectMapper();
 		User user = crudDao.findUserById(3);
 		Response response = Response.status(Status.OK).entity(user).build();
