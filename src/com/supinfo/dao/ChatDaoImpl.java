@@ -302,7 +302,29 @@ public class ChatDaoImpl implements IChat {
 		Query u =  em.createQuery("SELECT h FROM UserHasChat h WHERE h.user.id=:X AND h.status = 2");
 		//Soit on fait un  OR ici pour Ajouter des conditions selon le statu, pending, Ban , Accepted
 		u.setParameter("X", idUser);
-		return u.getResultList();
+		List<UserHasChat> liste1 = u.getResultList();
+		List<UserHasChat> liste2 = new ArrayList<UserHasChat>();
+		for (UserHasChat userHasChat : liste1) {
+			int idChat = userHasChat.getChat().getId();
+			Query u2 =  em.createQuery("SELECT h FROM UserHasChat h WHERE h.user.id !=:X AND h.chat.id =:Y");
+			u2.setParameter("X", idUser);
+			u2.setParameter("Y", idChat);
+			UserHasChat uhc = (UserHasChat) u2.getSingleResult();
+			liste2.add(uhc);
+		}
+		System.out.println("Taille de liste = "+liste2.get(0).getUser().getId());
+		List<UserHasChat> result = new ArrayList<UserHasChat>();
+		for (UserHasChat uhc1 : liste1) {
+			for (UserHasChat uhc2 : liste2) {
+				if (uhc1.getChat().getId() == uhc2.getChat().getId()) {
+					System.out.println("Id User = "+uhc2.getUser().getId());
+					UserHasChat finale = uhc1;
+					finale.setUser(uhc2.getUser());
+					result.add(finale);
+				}
+			}
+		}
+		return result;
 	}
 	
 	@Override
