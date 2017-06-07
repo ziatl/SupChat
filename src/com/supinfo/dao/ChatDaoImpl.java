@@ -405,6 +405,11 @@ public class ChatDaoImpl implements IChat {
 			em = PersistenceManager.getEntityManager();
 			crudDao = new CrudDaoImpl();
 			crudDao.updateUHC(uhc2);
+			em  = PersistenceManager.getEntityManager();
+			Chat cc = em.find(Chat.class, idChat);
+			cc.setStatut(1);
+			crudDao = new CrudDaoImpl();
+			crudDao.updateChat(cc);
 		}
 		if (status == 3) {
 			uhc.setStatus(status);
