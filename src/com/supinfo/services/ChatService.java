@@ -228,6 +228,18 @@ public class ChatService {
 	public UserHasChat updateUHCLibelle (@PathParam(value="idUHC") Integer idUHC, @PathParam(value="libelle") String libelle) {
 			return chatDao.updateUHCLibelle(idUHC, libelle);
 	}
+	//JoinGroup
+		@POST
+		@Path("/joinGroup/{idUser}/{idChat}")
+		public UserHasChat joinGroup (@PathParam(value="idUser")Integer idUser,@PathParam(value="idChat")Integer idChat,UserHasChat uhc) {
+			System.out.println("IdUser "+idUser);
+			System.out.println("IdChat"+idChat);
+			System.out.println(uhc.getId());
+			uhc.setUser(crudDao.findUserById(idUser));
+			uhc.setChat(chatDao.findChatById(idChat));
+			uhc.setStatus(4);
+			return chatDao.addUserHasChat(uhc);		 
+		}
 	@DELETE
 	@Path("/userHasChat")
 	public UserHasChat delUHC (UserHasChat uhc) {
@@ -315,7 +327,11 @@ public class ChatService {
 	public List<Chat> getNotGroupe (@PathParam(value="idUser")Integer idUser) {
 		return chatDao.getNoGroupe(idUser);
 	}
-	
+	@PUT
+	@Path("/chats/ban/{idUser}/{idChat}")
+	public UserHasChat banUser (@PathParam(value="idUser")Integer idUser, @PathParam(value="idChat")Integer idChat) {
+		return chatDao.banUser(idUser, idChat);
+	}
 	@POST
 	@Path("/groupe")
 	public User createGroupe (@QueryParam(value="id1")Integer idUser1,@QueryParam("libelle") String libelle) {

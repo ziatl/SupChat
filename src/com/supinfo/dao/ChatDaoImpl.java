@@ -73,7 +73,7 @@ public class ChatDaoImpl implements IChat {
 	}
 	@Override
 	public List<ChatJson> getChatByUser(Integer id) {
-		Query q = em.createQuery("SELECT c From Chat c where c.statut = 1 and c.id IN (SELECT u.chat.id FROM UserHasChat u WHERE u.user.id=:X)");
+		Query q = em.createQuery("SELECT c From Chat c where c.statut = 1 and c.id IN (SELECT u.chat.id FROM UserHasChat u WHERE u.user.id=:X and u.status = 1)");
 		q.setParameter("X", id);
 		try {
 			List<Chat> lchat = q.getResultList();
@@ -474,8 +474,12 @@ public class ChatDaoImpl implements IChat {
 			Query u2 =  em.createQuery("SELECT h FROM UserHasChat h WHERE h.user.id !=:X AND h.chat.id =:Y");
 			u2.setParameter("X", idUser);
 			u2.setParameter("Y", idChat);
-			UserHasChat uhc = (UserHasChat) u2.getSingleResult();
-			liste2.add(uhc);
+			try {
+				UserHasChat uhc = (UserHasChat) u2.getSingleResult();
+				liste2.add(uhc);
+			} catch (Exception e) {
+				// TODO: handle exception
+			}
 		}
 		
 		List<UserHasChat> result = new ArrayList<UserHasChat>();
@@ -489,6 +493,12 @@ public class ChatDaoImpl implements IChat {
 				}
 			}
 		}
+		Query req = em.createQuery("Select h From UserHasChat h where h.chat.id IN "
+				+ "(Select h.chat.id FROM UserHasChat h where h.user.id=:X and h.admin=1 and chat.type = 1) and h.user.id !=:X and h.status = 4");
+		req.setParameter("X", idUser);
+		List<UserHasChat> adminList = req.getResultList();
+		result.addAll(adminList);
+
 		return result;
 	}
 	
@@ -519,6 +529,19 @@ public class ChatDaoImpl implements IChat {
 			crudDao.updateUHC(uhc);
 		}
 		
+		return uhc;
+	}
+	
+	@Override
+	public UserHasChat banUser (Integer idUser, Integer idChat) {
+		Query q =  em.createQuery("select h from UserHasChat h where h.user.id =:X and h.chat.id =:Y");
+		q.setParameter("X", idUser);
+		q.setParameter("Y", idChat);
+		UserHasChat uhc = (UserHasChat) q.getSingleResult();
+		uhc.setStatus(3);
+		em = PersistenceManager.getEntityManager();
+		crudDao = new CrudDaoImpl();
+		crudDao.updateUHC(uhc);
 		return uhc;
 	}
 	

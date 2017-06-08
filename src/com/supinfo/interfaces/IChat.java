@@ -31,6 +31,7 @@ public interface IChat {
 	public UserHasChat updateUHCLibelle (Integer idUHC, String libelle);
 	public User addContact(Integer idUser1,Integer idUser2,String libelle);
 	public int updateUHCStatus(Integer id1,Integer id2,Integer status);
+	public UserHasChat banUser (Integer idUser, Integer idChat);
 	
 	public List<Message> getMessByCHat(Integer idCHat);
 	
