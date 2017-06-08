@@ -256,15 +256,9 @@ public class ChatDaoImpl implements IChat {
 	};
 	@Override
 	public User createGroupe(Integer idUser1, String libelle) {
-		List<UserHasChat> liste1 = new ArrayList<UserHasChat>();
 		User user1 = crudDao.findUserById(idUser1);
 		UserHasChat uhc1 = new UserHasChat();
-		Chat chat = new Chat();
-		
-		Query q = em.createQuery("Select h FROM UserHasChat h where h.user.id =:X and h.chat.type = 0");
-		q.setParameter("X", idUser1);
-		liste1 = q.getResultList();
-		
+		Chat chat = new Chat();		
 		chat.setType(1);
 		chat.setStatut(0);
 		chat.setCreator(idUser1);
@@ -287,10 +281,33 @@ public class ChatDaoImpl implements IChat {
 		}	
 		return user1;
 	  }
+	
 	@Override
-	public UserHasChat updateUHCLibelle (Integer idUser, String libelle) {
-		Query q = em.createQuery("SELECT u FROM UserHasChat u Where u.user.id =:X");
+	public UserHasChat addUserGroupe(Integer idUser, Integer idChat) {
+		Chat c = crudDao.findChatById(idChat);
+		Query q = em.createQuery("SELECT u FROM User u WHERE u.id =:X");
 		q.setParameter("X", idUser);
+		User u = (User) q.getSingleResult();
+		UserHasChat uhc = new UserHasChat();
+		EntityTransaction et = em.getTransaction();
+		try {
+			et.begin();
+			uhc.setChat(c);
+			uhc.setUser(u);
+			uhc.setStatus(2);
+			em.persist(uhc);
+			et.commit();
+			em.close();
+		}catch (Exception e) {
+			System.out.println(e.getMessage());
+			return null;
+		}
+		return uhc;
+	}
+	@Override
+	public UserHasChat updateUHCLibelle (Integer idUHC, String libelle) {
+		Query q = em.createQuery("SELECT u FROM UserHasChat u Where u.id =:X");
+		q.setParameter("X", idUHC);
 		UserHasChat u = (UserHasChat) q.getSingleResult();
 		EntityTransaction et = em.getTransaction();
 		try {

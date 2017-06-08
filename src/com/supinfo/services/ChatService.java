@@ -224,9 +224,9 @@ public class ChatService {
 		return chatDao.addUserHasChat(uhc);		 
 	}
 	@PUT
-	@Path("/userHasChat/{idUser}/{libelle}")
-	public UserHasChat updateUHCLibelle (@PathParam(value="idUser") Integer idUser, @PathParam(value="libelle") String libelle) {
-			return chatDao.updateUHCLibelle(idUser, libelle);
+	@Path("/userHasChat/{idUHC}/{libelle}")
+	public UserHasChat updateUHCLibelle (@PathParam(value="idUHC") Integer idUHC, @PathParam(value="libelle") String libelle) {
+			return chatDao.updateUHCLibelle(idUHC, libelle);
 	}
 	@DELETE
 	@Path("/userHasChat")
@@ -246,8 +246,17 @@ public class ChatService {
 	@Path("/contact")
 	public User addContact(@QueryParam(value="id1")Integer idUser1,@QueryParam(value="id2")Integer idUser2,@QueryParam("libelle") String libelle){
 		return chatDao.addContact(idUser1, idUser2,libelle);
-	} 
-	
+	}
+	@PUT
+	@Path("/user/groupe/")
+	public User addGroupe(@QueryParam(value="idUser1") Integer idUser1, @QueryParam(value="libelle") String libelle) {
+		return chatDao.createGroupe(idUser1, libelle);
+	}
+	@PUT
+	@Path("/user/addgroupe/")
+	public UserHasChat adUserGroupe(@QueryParam(value="idUser") Integer idUser, @QueryParam(value="idChat") Integer idChat) {
+		return chatDao.addUserGroupe(idUser, idChat);
+	}
 	@GET
 	@Path("/contact/{idUser}/{status}")
 	public int updateUHCStatus(@PathParam(value="idUser")Integer id2,@PathParam(value="status")Integer status,ContainerRequestContext requestContext){

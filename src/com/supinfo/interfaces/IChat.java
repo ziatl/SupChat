@@ -27,7 +27,8 @@ public interface IChat {
 	public User createGroupe(Integer idUser1, String libelle);
 	public List<Chat> getGroupe(Integer idUser);
 	public List<Chat> getNoGroupe(Integer idUser);
-	public UserHasChat updateUHCLibelle (Integer idUser, String libelle);
+	public UserHasChat addUserGroupe(Integer idUser, Integer idChat);
+	public UserHasChat updateUHCLibelle (Integer idUHC, String libelle);
 	public User addContact(Integer idUser1,Integer idUser2,String libelle);
 	public int updateUHCStatus(Integer id1,Integer id2,Integer status);
 	
