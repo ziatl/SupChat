@@ -24,10 +24,10 @@ public class MessageDaoImpl implements IMessage {
 	}
 	
 	@Override
-	public Message addMessageText(String message, Integer idUser, Integer idChat) {
+	public Message addMessageText(String message, Integer idUser, Integer idChat,Integer type) {
 		Message mes = new Message();
 		mes.setDetail(message);
-		mes.setType(1);
+		mes.setType(type);
 		mes.setUser(crudDao.findUserById(idUser));
 		mes.setChat(crudDao.findChatById(idChat));
 		mes.setDateCreate(new Date());

@@ -7,7 +7,7 @@ import com.supinfo.entities.User;
 
 public interface IMessage {
 	
-	public Message addMessageText(String message,Integer idUser,Integer idChat);
+	public Message addMessageText(String message,Integer idUser,Integer idChat,Integer type);
 	public Message addMessageFile(String url,String urlLite,Integer type,Integer idUser,Integer idChat);
 	
 	public Message findMessageById(Integer id);

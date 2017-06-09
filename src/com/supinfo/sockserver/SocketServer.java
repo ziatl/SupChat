@@ -64,7 +64,7 @@ public class SocketServer {
 						ObjectMapper mapper = new ObjectMapper();
 						MessageSocketObject mssko = mapper.readValue(message, MessageSocketObject.class);
 						messageDao = new MessageDaoImpl();
-						messageDao.addMessageText(mssko.getContent(), mssko.getIdUser(), mssko.getId());
+						messageDao.addMessageText(mssko.getContent(), mssko.getIdUser(), mssko.getId(),mssko.getType());
 						ss.getBasicRemote().sendText(mapper.writeValueAsString(mssko));
 						System.out.println(mapper.writeValueAsString(mssko));
 					}
