@@ -55,23 +55,23 @@ public class SocketServer {
 	
 	@OnMessage
 	public void onMessage(String message, Session session,@PathParam(value="id") String id) throws IOException{
+		System.out.println("cc");
+		ObjectMapper mapper = new ObjectMapper();
+		MessageSocketObject mssko = mapper.readValue(message, MessageSocketObject.class);
+		messageDao = new MessageDaoImpl();
+		messageDao.addMessageText(mssko.getContent(), mssko.getIdUser(), mssko.getId(),mssko.getType());
 		try {
         	for (Map.Entry<Session,Integer> m : allMap.entrySet()) {
 				Session ss = m.getKey();
 				if (ss.isOpen()) {
-					if (ss.getId() != session.getId()) {
-						System.out.println("******* "+message);
-						ObjectMapper mapper = new ObjectMapper();
-						MessageSocketObject mssko = mapper.readValue(message, MessageSocketObject.class);
-						messageDao = new MessageDaoImpl();
-						messageDao.addMessageText(mssko.getContent(), mssko.getIdUser(), mssko.getId(),mssko.getType());
+					if (ss.getId() != session.getId()) {	
 						ss.getBasicRemote().sendText(mapper.writeValueAsString(mssko));
-						System.out.println(mapper.writeValueAsString(mssko));
 					}
 				}
 			}		
 		} catch (Exception e) {
 			// TODO: handle exception
+			System.out.println(e);
 		}
 	}
 	
