@@ -344,7 +344,7 @@ public class ChatService {
 	@Path("/test")
 	@Produces(MediaType.APPLICATION_JSON)
 	public Response test(){
-//		SendMail.SendEmail("zizoa1er@gmail.com");
+//		SendMail.SendEmail("supquirk2017@gmail.com");
 		ObjectMapper mapper = new ObjectMapper();
 	
 		User user = crudDao.findUserById(3);
