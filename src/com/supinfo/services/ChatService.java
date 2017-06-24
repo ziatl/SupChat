@@ -31,6 +31,7 @@ import com.supinfo.entities.Parametre;
 import com.supinfo.entities.User;
 import com.supinfo.entities.UserHasChat;
 import com.supinfo.providers.ChatJson;
+import com.supinfo.providers.ProviderChat;
 
 
 @Path("/rest")
@@ -338,6 +339,23 @@ public class ChatService {
 		return chatDao.createGroupe(idUser1, libelle);
 	}
 	//Device
+	
+	//Reset password
+	
+	@GET
+	@Path("/reset/{login}/{email}")
+	public int restPassword(@PathParam(value="login") String login,@PathParam(value="email")String email){
+		User user = crudDao.findUserByLoginAndEmail(login,email);
+		if (user.getNom()!=null) {
+			String mdp = ProviderChat.newPassword();
+			em = PersistenceManager.getEntityManager();
+			user.setMdp(mdp);
+			crudDao.updateUser(user);
+			SendMail.SendEmail(email,mdp);
+			return 1;
+		}
+		return 0;
+	}
 	
 	
 	@GET

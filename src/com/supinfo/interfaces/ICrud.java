@@ -62,6 +62,7 @@ public interface ICrud {
 	
 	//RestPassword
 	public ResetPassword addReset(Integer idUser);
+	public User findUserByLoginAndEmail(String login, String email);
 
 	
 	

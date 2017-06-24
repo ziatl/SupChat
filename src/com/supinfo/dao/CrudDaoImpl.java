@@ -81,6 +81,23 @@ public class CrudDaoImpl implements ICrud {
 		}	
 		
 	}
+	@Override
+	public User findUserByLoginAndEmail(String login, String email) {
+		Query q = em.createQuery("SELECT u FROM User u WHERE u.login=:X and u.email=:Y");
+		q.setParameter("X", login);
+		q.setParameter("Y", email);
+		try {
+			User user = (User) q.getSingleResult();
+			if (user==null){
+				return new User();
+			}else{
+				return user;
+			}
+		} catch (Exception e) {
+			// TODO: handle exception
+			return new User();
+		}
+	}
 
 	@Override
 	public int delUserById(Integer id) {
@@ -481,4 +498,6 @@ public class CrudDaoImpl implements ICrud {
 		// TODO Auto-generated method stub
 		return null;
 	}
+
+	
 }

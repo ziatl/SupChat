@@ -306,9 +306,9 @@ public class ChatDaoImpl implements IChat {
 	}
 	@Override
 	public UserHasChat updateUHCLibelle (Integer idUHC, String libelle) {
-		Query q = em.createQuery("SELECT u FROM UserHasChat u Where u.id =:X");
-		q.setParameter("X", idUHC);
-		UserHasChat u = (UserHasChat) q.getSingleResult();
+		
+		UserHasChat u = em.find(UserHasChat.class, idUHC);
+		em = PersistenceManager.getEntityManager();
 		EntityTransaction et = em.getTransaction();
 		try {
 			et.begin();

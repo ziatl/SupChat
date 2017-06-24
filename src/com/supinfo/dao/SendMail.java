@@ -6,7 +6,7 @@ import javax.activation.*;
 
 public class SendMail {
 
-   public static void SendEmail(String email) {    
+   public static void SendEmail(String email, String mdp) {    
 	   final String username = "supquirk2017@gmail.com";
 		final String password = "Supinfo07";
 
@@ -31,8 +31,8 @@ public class SendMail {
 				InternetAddress.parse(email));
 			message.setSubject("Reinitialisation de mot de passe");
 			message.setText("Bonjour Crawler,"
-				+ "\n Veuillez recevoir ci join votre nouveau mot de passe de connexion."
-				+ "\n\n mpd : nouveauMotDepasse"
+				+ "\n Veuillez recevoir ci-joint votre nouveau mot de passe de connexion."
+				+ "\n\n mpd : "+mdp
 				+ "\n\n Cordialement,"
 				+ "\n Quirk 2017.");
 			
