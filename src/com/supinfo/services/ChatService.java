@@ -222,6 +222,7 @@ public class ChatService {
 		System.out.println(uhc.getId());
 		uhc.setUser(crudDao.findUserById(idUser));
 		uhc.setChat(chatDao.findChatById(idChat));
+		uhc.setStatus(1);
 		return chatDao.addUserHasChat(uhc);		 
 	}
 	@PUT
