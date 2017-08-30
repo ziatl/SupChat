@@ -6,8 +6,10 @@ import java.util.Date;
 import java.util.List;
 import java.util.StringTokenizer;
 
+import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.container.ContainerRequestContext;
 import javax.ws.rs.container.ContainerRequestFilter;
+import javax.ws.rs.core.Context;
 import javax.ws.rs.core.HttpHeaders;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.Response.Status;
@@ -26,14 +28,14 @@ public class RequestFilter implements ContainerRequestFilter {
 	private static final String AUTHORIZATION_HEADER_PREFIX = "Basic ";
 	private CrudDaoImpl crudDAO = new CrudDaoImpl();
 	
+	@Context
+    private HttpServletRequest sr;
+	
 	@SuppressWarnings("deprecation")
 	@Override
 	public void filter(ContainerRequestContext requestContext) throws IOException {
-		System.out.println(requestContext.getMethod());
-		System.out.println(requestContext.getHeaderString("Content-Type"));
-		System.out.println(requestContext.getHeaders());
-		System.out.println(requestContext.getUriInfo().getQueryParameters());
-		System.out.println(requestContext.getUriInfo().getPathParameters());
+		System.out.println(sr.getRemoteAddr());
+		System.out.println(sr.getRemotePort());
 		return;
 	}
 }
